@@ -1,5 +1,6 @@
 package com.br.socio_torcedor_tricolor;
 
+import bd.Banco;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -10,6 +11,8 @@ public class TelaInicial extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tela_inicial);
+		Banco banco=new Banco (TelaInicial.this);
+		banco.criarBanco();
 	}
 
 	@Override
