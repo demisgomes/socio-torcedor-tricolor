@@ -120,6 +120,30 @@ public class Banco {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public Produto retorneProduto(String codigo){
+		try {
+			Cursor cursor;
+			openBd();
+			String sql="SELECT * FROM tabelaProdutos WHERE codigo LIKE '"+codigo+"'";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			System.out.println(cursor.getCount());
+			System.out.println(cursor.getString(cursor.getColumnIndex("nome")));
+			Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")));
+			return p;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			closeBd();
+		}
 	}
 	
 	
