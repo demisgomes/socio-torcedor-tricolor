@@ -4,5 +4,10 @@
     <string name="app_name">Socio_Torcedor_Tricolor</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="tela_codigo">Enviar Código</string>
+    <string name="loja">Loja</string>
+    <string name="perfil">Perfil</string>
+    <string name="title_activity_tela_enviar_codigo">TelaEnviarCodigo</string>
+    <string name="digite_e_envie_o_codigo">Digite e envie seu código promocional</string>
 
 </resources>
