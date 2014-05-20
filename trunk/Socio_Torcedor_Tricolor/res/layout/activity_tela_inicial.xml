@@ -1,8 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back_guerreiro_fiel"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -11,31 +12,46 @@
     tools:context=".TelaInicial" >
 
     <Button
+        android:id="@+id/btnPerfil"
+        android:layout_width="90dp"
+        android:layout_height="38dp"
+        android:layout_alignBaseline="@+id/btnLoja"
+        android:layout_alignBottom="@+id/btnLoja"
+        android:layout_alignParentRight="true"
+        android:background="#000000"
+        android:text="@string/perfil"
+        android:textColor="#FFFFFF" />
+
+    <Button
         android:id="@+id/btnTelaEnviarCodigo"
         android:layout_width="106dp"
         android:layout_height="38dp"
+        android:layout_alignBaseline="@+id/btnLoja"
+        android:layout_alignBottom="@+id/btnLoja"
+        android:layout_toLeftOf="@+id/btnLoja"
         android:background="#FF0000"
-        android:layout_marginBottom="7dp"
         android:text="@string/tela_codigo"
         android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/btnLoja"
         android:layout_width="106dp"
-        android:layout_height="38dp"      
+        android:layout_height="38dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="22dp"
+        android:layout_toLeftOf="@+id/btnPerfil"
         android:background="#FFFFF0"
         android:text="@string/loja"
-        android:textColor="#000000"
-        android:layout_marginBottom="7dp"
-         />
+        android:textColor="#000000" />
 
     <Button
-        android:id="@+id/btnPerfil"
-       android:layout_width="106dp"
+        android:id="@+id/btnLogin"
+        android:layout_width="90dp"
         android:layout_height="38dp"
+        android:layout_alignLeft="@+id/btnTelaEnviarCodigo"
+        android:layout_alignParentTop="true"
         android:background="#000000"
-        android:text="@string/perfil"
-        android:layout_marginBottom="7dp"
+        android:text="Login"
         android:textColor="#FFFFFF" />
 
-</LinearLayout>
+</RelativeLayout>
