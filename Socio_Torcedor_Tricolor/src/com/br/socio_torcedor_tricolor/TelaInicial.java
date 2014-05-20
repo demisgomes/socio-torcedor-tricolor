@@ -1,6 +1,9 @@
 package com.br.socio_torcedor_tricolor;
 
 import com.br.socio_torcedor_tricolor.gui.TelaEnviarCodigo;
+import com.br.socio_torcedor_tricolor.gui.TelaLogin;
+import com.br.socio_torcedor_tricolor.gui.TelaLoja;
+import com.br.socio_torcedor_tricolor.gui.TelaPerfil;
 
 import bd.Banco;
 import android.os.Bundle;
@@ -14,6 +17,9 @@ import android.widget.Button;
 public class TelaInicial extends Activity implements OnClickListener {
 
 	Button btnTelaEnviarCodigo;
+	Button btnLoja;
+	Button btnPerfil;
+	Button btnLogin;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,6 +28,12 @@ public class TelaInicial extends Activity implements OnClickListener {
 		banco.criarBanco();
 		btnTelaEnviarCodigo=(Button) findViewById(R.id.btnTelaEnviarCodigo);
 		btnTelaEnviarCodigo.setOnClickListener(this);
+		btnLoja=(Button) findViewById(R.id.btnLoja);
+		btnLoja.setOnClickListener(this);
+		btnPerfil=(Button) findViewById(R.id.btnPerfil);
+		btnPerfil.setOnClickListener(this);
+		btnLogin=(Button) findViewById(R.id.btnLogin);
+		btnLogin.setOnClickListener(this);
 	}
 
 	@Override
@@ -39,6 +51,20 @@ public class TelaInicial extends Activity implements OnClickListener {
 			startActivity(intent);
 		}
 		
+		if (v.getId()==R.id.btnLoja){
+			Intent intent=new Intent(TelaInicial.this, TelaLoja.class);
+			startActivity(intent);
+		}
+		
+		if (v.getId()==R.id.btnPerfil){
+			Intent intent=new Intent(TelaInicial.this, TelaPerfil.class);
+			startActivity(intent);
+		}
+		
+		if (v.getId()==R.id.btnLogin){
+			Intent intent=new Intent(TelaInicial.this, TelaLogin.class);
+			startActivity(intent);
+		}
 	}
 
 }

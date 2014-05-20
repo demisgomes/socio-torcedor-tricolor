@@ -9,5 +9,8 @@
     <string name="perfil">Perfil</string>
     <string name="title_activity_tela_enviar_codigo">TelaEnviarCodigo</string>
     <string name="digite_e_envie_o_codigo">Digite e envie seu código promocional</string>
+    <string name="entrar">Entrar</string>
+    <string name="title_activity_tela_perfil">TelaPerfil</string>
+    <string name="title_activity_tela_loja">TelaLoja</string>
 
 </resources>
