@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="11"
         android:targetSdkVersion="19" />
 
     <application
@@ -38,6 +38,18 @@
         <activity
             android:name="com.br.socio_torcedor_tricolor.gui.TelaLoja"
             android:label="@string/title_activity_tela_loja" >
+        </activity>
+        <activity
+            android:name="com.br.socio_torcedor_tricolor.ItemListActivity"
+            android:label="@string/title_item_list" >
+        </activity>
+        <activity
+            android:name="com.br.socio_torcedor_tricolor.ItemDetailActivity"
+            android:label="@string/title_item_detail"
+            android:parentActivityName=".ItemListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ItemListActivity" />
         </activity>
     </application>
 

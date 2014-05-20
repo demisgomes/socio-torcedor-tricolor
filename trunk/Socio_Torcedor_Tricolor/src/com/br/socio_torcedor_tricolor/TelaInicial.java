@@ -24,8 +24,8 @@ public class TelaInicial extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tela_inicial);
-		Banco banco=new Banco (TelaInicial.this);
-		banco.criarBanco();
+		//Banco banco=new Banco (TelaInicial.this);
+		//banco.criarBanco();
 		btnTelaEnviarCodigo=(Button) findViewById(R.id.btnTelaEnviarCodigo);
 		btnTelaEnviarCodigo.setOnClickListener(this);
 		btnLoja=(Button) findViewById(R.id.btnLoja);
