@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back_guerreiro_fiel"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.sociotorcedortricolor.TelaInicial$PlaceholderFragment" >
+
+    <LinearLayout
+        android:id="@+id/lnLayoutBotoes"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btnLoja"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loja" 
+            android:textColor="#FFFFFF"
+            android:background="#FF0000"
+            android:layout_marginRight="2dp"
+            android:paddingLeft="26dp"
+            android:paddingRight="26dp"/>
+
+        <Button
+            android:id="@+id/btnCodigo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enviar Código"
+            android:background="#FFFFFF"
+            android:layout_marginRight="2dp" />
+
+        <Button
+            android:id="@+id/btnBoleto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:textColor="#FFFFFF"
+            android:background="#000000"
+            android:text="Boleto"
+            android:paddingLeft="17dp"
+            android:paddingRight="17dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
