@@ -108,7 +108,7 @@ public class Banco {
 	
 	public String insertSocioHelper(String nome, String email, String senha, String confSenha,
 			String cpf, String telefone, String tipoSocio, String sexo){
-		String sql="INSERT INTO tabelaSocios (nome, email, senha, confSenha, cpf, telefone, tipoSocio, sexo,dataNascimento, pontos, ranking) VALUES ('"+nome+"','"+email+"','"+senha+"','"+cpf+"','"+telefone+"','"+tipoSocio+"','"+sexo+"', '26/11/2005', '0', '0')";
+		String sql="INSERT INTO tabelaSocios (nome, dataNascimento, email, senha, sexo, pontos, ranking, tipoSocio, cpf, telefone) VALUES ('"+nome+"', '26/11/2005','"+email+"','"+senha+"', '"+sexo+"', '0', '0', '"+tipoSocio+"', '"+cpf+"', '"+telefone+"')";
 		return sql;
 	}
 	
@@ -167,9 +167,9 @@ public class Banco {
 	
 	public boolean validarLogin(String email, String senha){
 		try {
-			Cursor cursor;
 			openBd();
-			String sql="SELECT _id FROM tabelaSocios WHERE email LIKE '"+email+"' AND senha LIKE '"+senha+"'";
+			Cursor cursor;
+			String sql="SELECT * FROM tabelaSocios WHERE email LIKE '"+email+"' AND senha LIKE '"+senha+"'";
 			cursor=bancoDados.rawQuery(sql, null);
 			cursor.moveToFirst();
 			Socio s=new Socio(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("email")), cursor.getString(cursor.getColumnIndex("senha")),cursor.getString(cursor.getColumnIndex("senha")), cursor.getString(cursor.getColumnIndex("cpf")), cursor.getString(cursor.getColumnIndex("telefone")),cursor.getString(cursor.getColumnIndex("tipoSocio")), cursor.getString(cursor.getColumnIndex("sexo")));
