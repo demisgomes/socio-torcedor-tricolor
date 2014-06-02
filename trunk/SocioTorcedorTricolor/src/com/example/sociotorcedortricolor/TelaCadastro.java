@@ -95,6 +95,7 @@ public class TelaCadastro extends Activity {
 			spSexo.setAdapter(ar);
 			
 			btnConfirmar= (Button) rootView.findViewById(R.id.btnConfirmar);
+			btnConfirmar.setOnClickListener(this);
 			
 			return rootView;
 		}

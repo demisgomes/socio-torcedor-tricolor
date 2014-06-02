@@ -153,15 +153,19 @@ public class TelaLogin extends Activity implements OnClickListener {
 			// form field with an error.
 			focusView.requestFocus();
 		} else {
-			// Show a progress spinner, and kick off a background task to
-			// perform the user login attempt.
-			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
-			showProgress(true);
-			mAuthTask = new UserLoginTask();
-			mAuthTask.execute((Void) null);
+			Banco banco=new Banco(this);
+			if(banco.validarLogin(mEmail, mPassword)){
+				// Show a progress spinner, and kick off a background task to
+				// perform the user login attempt.
+				mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
+				showProgress(true);
+				mAuthTask = new UserLoginTask();
+				mAuthTask.execute((Void) null);
+				
+				Intent intent= new Intent (TelaLogin.this, TelaInicial.class);
+				startActivity(intent);
+			}
 			
-			Intent intent= new Intent (TelaLogin.this, TelaInicial.class);
-			startActivity(intent);
 		}
 	}
 
