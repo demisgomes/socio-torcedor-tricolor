@@ -61,6 +61,7 @@ public class TelaLogin extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_tela_login);
 		Banco banco=new Banco(this);
 		banco.criarBanco();
+		System.out.println(banco.validarLogin("d@", "demis"));
 		if(banco.retorneProduto("G7R4-T9Y0")==null){
 			banco.populeBanco();
 		}
