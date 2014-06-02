@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tipo_socio">
+        <item >Master</item>
+        <item>Ouro</item>
+        <item>Prata</item>
+        <item>Patrimonial</item>
+        
+    </string-array>
+    
+    <string-array name="sexo">
+        <item>Feminino</item>
+        <item>Masculino</item>
+        
+    </string-array>
+</resources>

@@ -1,5 +1,6 @@
 package com.example.sociotorcedortricolor;
 
+import bd.Banco;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -12,7 +13,9 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,7 +23,7 @@ import android.widget.TextView;
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
-public class TelaLogin extends Activity {
+public class TelaLogin extends Activity implements OnClickListener {
 	/**
 	 * A dummy authentication store containing known user names and passwords.
 	 * TODO: remove after connecting to a real authentication system.
@@ -48,18 +51,26 @@ public class TelaLogin extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
+	
+	private Button btnCadastrar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_tela_login);
-
+		Banco banco=new Banco(this);
+		banco.criarBanco();
+		if(banco.retorneProduto("G7R4-T9Y0")==null){
+			banco.populeBanco();
+		}
 		// Set up the login form.
 		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
 		mEmailView = (EditText) findViewById(R.id.email);
 		mEmailView.setText(mEmail);
-
+		
+		btnCadastrar=(Button) findViewById(R.id.btnCadastro);
+		btnCadastrar.setOnClickListener(this);
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -242,5 +253,14 @@ public class TelaLogin extends Activity {
 			mAuthTask = null;
 			showProgress(false);
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		if(v.getId()==R.id.btnCadastro){
+			Intent intent=new Intent(this, TelaCadastro.class);
+			startActivity(intent);
+		}
+		
 	}
 }
