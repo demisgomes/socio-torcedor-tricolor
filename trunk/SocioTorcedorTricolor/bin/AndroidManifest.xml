@@ -35,6 +35,10 @@
             android:name="com.example.sociotorcedortricolor.TelaCadastro"
             android:label="@string/title_activity_tela_cadastro" >
         </activity>
+        <activity
+            android:name="com.example.sociotorcedortricolor.TelaBoleto"
+            android:label="@string/title_activity_tela_boleto" >
+        </activity>
     </application>
 
 </manifest>

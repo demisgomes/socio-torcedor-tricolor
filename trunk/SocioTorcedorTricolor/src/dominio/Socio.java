@@ -64,6 +64,14 @@ public class Socio {
 		return confSenha;
 	}
 
+	public static Socio getSocioLogado() {
+		return socioLogado;
+	}
+
+	public static void setSocioLogado(Socio socioLogado) {
+		Socio.socioLogado = socioLogado;
+	}
+
 	public void setConfSenha(String confSenha) {
 		this.confSenha = confSenha;
 	}
@@ -80,4 +88,6 @@ public class Socio {
 		this.tipoSocio = tipoSocio;
 		this.sexo = sexo;
 	}
+	
+	public static Socio socioLogado;
 }

@@ -1,8 +1,13 @@
 package com.example.sociotorcedortricolor;
 
 
+import bd.Banco;
+
+
+import dominio.Produto;
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -53,6 +58,7 @@ public class TelaEnviarCodigo extends Activity {
 	 */
 	public static class PlaceholderFragment extends Fragment implements OnClickListener {
 
+		EditText txtFCodigo;
 		public PlaceholderFragment() {
 		}
 
@@ -62,7 +68,7 @@ public class TelaEnviarCodigo extends Activity {
 			View rootView = inflater.inflate(
 					R.layout.fragment_tela_enviar_codigo, container, false);
 			Button btnEnviarCodigo;
-			EditText txtFCodigo;
+			
 			btnEnviarCodigo=(Button)rootView.findViewById(R.id.btnEnviarCodigo);
 			btnEnviarCodigo.setOnClickListener(this);
 			txtFCodigo=(EditText) rootView.findViewById(R.id.txtFCodigo);
@@ -72,7 +78,28 @@ public class TelaEnviarCodigo extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			
+			if(v.getId()==R.id.btnEnviarCodigo){
+				
+				Banco banco=new Banco(getActivity());
+				String codigo=txtFCodigo.getText().toString();
+				System.out.println(codigo + " Código");
+				Produto p=banco.retorneProduto(codigo);
+				if(p!=null){
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setMessage(" Parabéns! Você ganhou pontos!")
+					       .setTitle("Parabéns!");
+					AlertDialog dialog = builder.create();
+					dialog.show();
+					
+				}
+				else{
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setMessage(" Código Inválido ou já utilizado")
+					       .setTitle("Falha");
+					AlertDialog dialog = builder.create();
+					dialog.show();
+				}
+			}
 		}
 	}
 

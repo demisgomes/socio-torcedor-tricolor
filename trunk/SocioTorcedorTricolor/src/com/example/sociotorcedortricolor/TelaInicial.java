@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -12,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class TelaInicial extends Activity
@@ -23,7 +26,7 @@ public class TelaInicial extends Activity
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
+    private NavigationDrawerFragment mNavigationDrawerFragment; 
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -104,7 +107,7 @@ public class TelaInicial extends Activity
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment implements OnClickListener {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -130,6 +133,13 @@ public class TelaInicial extends Activity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_tela_inicial, container, false);
+            Button btnCodigo, btnBoleto;
+            
+            btnCodigo= (Button) rootView.findViewById(R.id.btnCodigo);
+            btnBoleto= (Button) rootView.findViewById(R.id.btnBoleto);
+            
+            btnCodigo.setOnClickListener(this);
+            btnBoleto.setOnClickListener(this);
             return rootView;
         }
 
@@ -139,6 +149,19 @@ public class TelaInicial extends Activity
             ((TelaInicial) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
+		@Override
+		public void onClick(View v) {
+			if(v.getId()==R.id.btnCodigo){
+				Intent intent=new Intent(getActivity(), TelaEnviarCodigo.class);
+				startActivity(intent);
+			}
+			
+			if(v.getId()==R.id.btnBoleto){
+				Intent intent=new Intent(getActivity(), TelaBoleto.class);
+				startActivity(intent);
+			}
+		}
     }
 
 }

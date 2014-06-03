@@ -7,10 +7,4 @@
         <item>Patrimonial</item>
         
     </string-array>
-    
-    <string-array name="sexo">
-        <item>Feminino</item>
-        <item>Masculino</item>
-        
-    </string-array>
 </resources>
