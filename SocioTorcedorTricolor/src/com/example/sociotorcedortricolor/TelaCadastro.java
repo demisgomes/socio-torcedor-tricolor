@@ -92,7 +92,7 @@ public class TelaCadastro extends Activity {
 			spSexo = (Spinner) rootView.findViewById(R.id.spSexo);
 			ArrayAdapter<CharSequence> ar2 = ArrayAdapter.createFromResource(getActivity(),R.array.sexo,android.R.layout.simple_list_item_1);
 			ar.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-			spSexo.setAdapter(ar);
+			spSexo.setAdapter(ar2);
 			
 			btnConfirmar= (Button) rootView.findViewById(R.id.btnConfirmar);
 			btnConfirmar.setOnClickListener(this);
