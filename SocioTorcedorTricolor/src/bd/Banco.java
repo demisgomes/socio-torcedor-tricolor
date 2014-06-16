@@ -17,7 +17,6 @@ public class Banco {
 	private static int versaoBD=1;
 	private BDhelper bdHelper;
 	private SQLiteDatabase bancoDados;
-	private Cursor cursor;
 	private String nomeBanco="SocioTorcedorDB";
 	// o context é a tela em que o banco será iniciado
 	//construtor da classe
@@ -184,6 +183,78 @@ public class Banco {
 			closeBd();
 		}
 	}
+	
+	public ArrayList <Produto> retorneListaProdutos(){
+		try {
+			Cursor cursor;
+			openBd();
+			String sql="SELECT * FROM tabelaProdutos";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			ArrayList<Produto> listaProdutos=new ArrayList<Produto>();
+			for(int i=1;i<cursor.getCount();i++){
+				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")));
+				listaProdutos.add(p);
+				if(i!=cursor.getCount()-1){
+					cursor.moveToNext();
+				}	
+			}
+			return listaProdutos;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	/*public ArrayList <Socio> retorneListaSocios(){
+		try {
+			Cursor cursor;
+			openBd();
+			String sql="SELECT * FROM tabelaSocios";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			ArrayList<Socio> listaSocios=new ArrayList<Socio>();
+			for(int i=1;i<cursor.getCount();i++){
+				Socio s=new Socio(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")));
+				listaProdutos.add(p);
+				if(i!=cursor.getCount()-1){
+					cursor.moveToNext();
+				}	
+			}
+			return listaProdutos;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			closeBd();
+		}
+	}*/
+	
+	public int conteSocios(){
+		try {
+			Cursor cursor;
+			openBd();
+			String sql="SELECT COUNT (*) FROM tabelaSocios";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			
+			return cursor.getInt(0);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return 0;
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
 	
 	
 	
