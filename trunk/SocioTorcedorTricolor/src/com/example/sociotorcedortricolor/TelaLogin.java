@@ -163,7 +163,7 @@ public class TelaLogin extends Activity implements OnClickListener {
 				mAuthTask = new UserLoginTask();
 				mAuthTask.execute((Void) null);
 				
-				Intent intent= new Intent (TelaLogin.this, TelaInicial.class);
+				Intent intent= new Intent (TelaLogin.this, TelaAbas.class);
 				startActivity(intent);
 			}
 			
