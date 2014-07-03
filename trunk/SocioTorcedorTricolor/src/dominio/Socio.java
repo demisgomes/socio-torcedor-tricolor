@@ -3,6 +3,7 @@ package dominio;
 public class Socio {
 	
 	private String nome,email,senha,confSenha,cpf,telefone,tipoSocio,sexo;
+	private int pontos,ranking;
 
 	public String getNome() {
 		return nome;
@@ -78,7 +79,7 @@ public class Socio {
 
 	
 	public Socio(String nome, String email, String senha, String confSenha,
-			String cpf, String telefone, String tipoSocio, String sexo) {
+			String cpf, String telefone, String tipoSocio, String sexo, int pontos, int ranking) {
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
@@ -87,7 +88,26 @@ public class Socio {
 		this.telefone = telefone;
 		this.tipoSocio = tipoSocio;
 		this.sexo = sexo;
+		this.pontos=pontos;
+		this.ranking=ranking;
+		
 	}
 	
+	public int getPontos() {
+		return pontos;
+	}
+
+	public void setPontos(int pontos) {
+		this.pontos = pontos;
+	}
+
+	public int getRanking() {
+		return ranking;
+	}
+
+	public void setRanking(int ranking) {
+		this.ranking = ranking;
+	}
+
 	public static Socio socioLogado;
 }
