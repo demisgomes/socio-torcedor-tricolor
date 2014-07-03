@@ -2,6 +2,7 @@ package com.example.sociotorcedortricolor;
 
 import java.util.Locale;
 
+import Fragments.FragmentCodigo;
 import Fragments.FragmentLoja;
 import android.app.Activity;
 import android.app.ActionBar;
@@ -131,6 +132,10 @@ public class TelaAbas extends Activity implements ActionBar.TabListener {
 			Fragment fragment= new Fragment();
 			if(position==0){
 				fragment= new FragmentLoja();
+				return fragment;
+			}
+			if(position==2){
+				fragment= new FragmentCodigo();
 				return fragment;
 			}
 			return PlaceholderFragment.newInstance(position + 1);
