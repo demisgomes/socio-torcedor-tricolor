@@ -49,8 +49,9 @@ public class FragmentCodigo extends Fragment implements OnClickListener {
 			Produto p=banco.retorneProduto(codigo);
 			if(p!=null){
 				CalculoPontos calculo =new CalculoPontos(getActivity(), Socio.getSocioLogado(), p.getPreco());
+				banco.updatePontosSocio(Socio.getSocioLogado(), calculo.getPontos());
 				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-				builder.setMessage(" Parabéns! Você ganhou "+calculo.getPontos()+" pontos!")
+				builder.setMessage(" Parabéns! Você ganhou "+calculo.getPontos()+" pontos! Agora você possui "+Socio.getSocioLogado().getPontos()+"pontos")
 				       .setTitle("Parabéns!");
 				AlertDialog dialog = builder.create();
 				dialog.show();

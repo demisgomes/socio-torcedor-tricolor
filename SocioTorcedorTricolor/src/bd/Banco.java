@@ -171,7 +171,7 @@ public class Banco {
 			String sql="SELECT * FROM tabelaSocios WHERE email LIKE '"+email+"' AND senha LIKE '"+senha+"'";
 			cursor=bancoDados.rawQuery(sql, null);
 			cursor.moveToFirst();
-			Socio s=new Socio(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("email")), cursor.getString(cursor.getColumnIndex("senha")),cursor.getString(cursor.getColumnIndex("senha")), cursor.getString(cursor.getColumnIndex("cpf")), cursor.getString(cursor.getColumnIndex("telefone")),cursor.getString(cursor.getColumnIndex("tipoSocio")), cursor.getString(cursor.getColumnIndex("sexo")));
+			Socio s=new Socio(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("email")), cursor.getString(cursor.getColumnIndex("senha")),cursor.getString(cursor.getColumnIndex("senha")), cursor.getString(cursor.getColumnIndex("cpf")), cursor.getString(cursor.getColumnIndex("telefone")),cursor.getString(cursor.getColumnIndex("tipoSocio")), cursor.getString(cursor.getColumnIndex("sexo")), cursor.getInt(cursor.getColumnIndex("pontos")), cursor.getInt(cursor.getColumnIndex("ranking")));
 			Socio.socioLogado=s;
 			return true;
 		} catch (Exception e) {
@@ -249,6 +249,41 @@ public class Banco {
 			// TODO: handle exception
 			e.printStackTrace();
 			return 0;
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public int usuarioGetId(String email){
+		try {
+			openBd();
+			Cursor cursor;
+			String sql="SELECT * FROM tabelaSocios WHERE email LIKE '"+email+"'";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			return cursor.getInt(cursor.getColumnIndex("_id"));
+		} catch (Exception e) {
+			// TODO: handle exception 
+			e.printStackTrace();
+			return 0;
+		}
+		finally{
+			//closeBd();
+		}
+	}
+	
+	public void updatePontosSocio(Socio socio, int pontos){
+		try{
+			openBd();
+			int novosPontos=socio.getPontos()+pontos;
+			String update="UPDATE "+tabelaSocios+" SET nome='"+socio.getNome()+"', dataNascimento='26/11/2005', email='"+socio.getEmail()+"', senha='"+socio.getSenha()+"', sexo='"+socio.getSenha()+"', pontos='"+novosPontos+"', ranking='"+socio.getRanking()+"', tipoSocio='"+socio.getTipoSocio()+"', cpf='"+socio.getCpf()+"', telefone='"+socio.getTelefone()+"'";
+			//String update= "UPDATE "+tabelaSocios+" SET pontos='"+novosPontos+"' WHERE _id LIKE '"+usuarioGetId(socio.getEmail())+"'";
+			bancoDados.execSQL(update);
+			validarLogin(socio.getEmail(), socio.getSenha());
+		}
+		catch(Exception e){
+			e.printStackTrace();
 		}
 		finally{
 			closeBd();

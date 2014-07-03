@@ -116,7 +116,7 @@ public class TelaCadastro extends Activity {
 				tipoSocio=spTipoSocio.getSelectedItem().toString();
 				sexo=spSexo.getSelectedItem().toString();
 				
-				Socio socio=new Socio(nome, email, senha, confSenha, cpf, telefone, tipoSocio, sexo);
+				Socio socio=new Socio(nome, email, senha, confSenha, cpf, telefone, tipoSocio, sexo,0,0);
 				Banco banco=new Banco(getActivity());
 				banco.cadastrarSocio(socio);
 				
