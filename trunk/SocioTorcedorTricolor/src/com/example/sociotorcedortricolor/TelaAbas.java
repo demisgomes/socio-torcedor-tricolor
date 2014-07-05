@@ -2,6 +2,7 @@ package com.example.sociotorcedortricolor;
 
 import java.util.Locale;
 
+import bd.Banco;
 import Fragments.FragmentCodigo;
 import Fragments.FragmentLoja;
 import android.app.Activity;
@@ -30,7 +31,7 @@ public class TelaAbas extends Activity implements ActionBar.TabListener {
 	 * {@link android.support.v13.app.FragmentStatePagerAdapter}.
 	 */
 	SectionsPagerAdapter mSectionsPagerAdapter;
-
+	
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
@@ -40,7 +41,8 @@ public class TelaAbas extends Activity implements ActionBar.TabListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tela_abas);
-
+		//Banco banco = new Banco(this);
+		//banco.inserirProdutos();
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

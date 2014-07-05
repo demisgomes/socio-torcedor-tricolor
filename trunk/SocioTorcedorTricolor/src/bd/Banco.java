@@ -87,13 +87,13 @@ public class Banco {
 		ListaDeProdutos=new ArrayList<Produto>();
 		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R4-T9Y0", (float)189.90));
 		ListaDeProdutos.add(new Produto("Calção Oficial", "G7R2-T4I0", (float)99.90));
-		ListaDeProdutos.add(new Produto("Meiões Oficiais", "GRR4-T5Y0", (float)49.90));
+		ListaDeProdutos.add(new Produto("Camisa Polo", "GRR4-T5Y0", (float)49.90));
 		ListaDeProdutos.add(new Produto("Garrafa Ofical", "G7R4-T9Q0", (float)9.90));
 		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R2-T9Y0", (float)189.90));
 		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R3-T9Y0", (float)189.90));
-		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R5-T9Y0", (float)189.90));
-		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R6-T9Y0", (float)189.90));
-		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R7-T9Y0", (float)189.90));
+		ListaDeProdutos.add(new Produto("Toalha Oficial", "G7R5-T9Y0", (float)189.90));
+		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G7R6-T9Y0", (float)189.90));
+		ListaDeProdutos.add(new Produto("Toalha Oficial", "G7R7-T9Y0", (float)189.90));
 		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R8-T9Y0", (float)189.90));
 		
 		return ListaDeProdutos;
@@ -210,31 +210,7 @@ public class Banco {
 		}
 	}
 	
-	/*public ArrayList <Socio> retorneListaSocios(){
-		try {
-			Cursor cursor;
-			openBd();
-			String sql="SELECT * FROM tabelaSocios";
-			cursor=bancoDados.rawQuery(sql, null);
-			cursor.moveToFirst();
-			ArrayList<Socio> listaSocios=new ArrayList<Socio>();
-			for(int i=1;i<cursor.getCount();i++){
-				Socio s=new Socio(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")));
-				listaProdutos.add(p);
-				if(i!=cursor.getCount()-1){
-					cursor.moveToNext();
-				}	
-			}
-			return listaProdutos;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return null;
-		}
-		finally{
-			closeBd();
-		}
-	}*/
+	
 	
 	public int conteSocios(){
 		try {
@@ -289,6 +265,31 @@ public class Banco {
 			closeBd();
 		}
 	}
+	
+	public void inserirProdutos(){
+		ListaDeProdutos=new ArrayList<Produto>();
+		ListaDeProdutos.add(new Produto("Calção Oficial", "G7A2-T4I0", (float)99.90));
+		ListaDeProdutos.add(new Produto("Camisa Polo", "GRB4-T5Y0", (float)49.90));
+		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G9R4-T9Q0", (float)9.90));
+		ListaDeProdutos.add(new Produto("Toalha Oficial", "G9R5-T9Y0", (float)19.90));
+		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G9R6-T9Y0", (float)189.90));
+		try{
+			openBd();
+			ArrayList<Produto> lista=ListaDeProdutos;
+			for (int i=0;i<lista.size();i++){
+				Produto p=(Produto)lista.get(i);
+				String sql=insertProdutoHelper(p.getNomeProduto(), p.getCodigo(), p.getPreco());
+				bancoDados.execSQL(sql);
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
 	
 	
 	

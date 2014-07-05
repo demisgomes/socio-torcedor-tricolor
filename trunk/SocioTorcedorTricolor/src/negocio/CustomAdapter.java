@@ -49,16 +49,34 @@ public class CustomAdapter extends ArrayAdapter<Produto> {
         TextView nome = (TextView) convertView.findViewById(R.id.titulo);
         TextView preco = (TextView) convertView.findViewById(R.id.preco);
 
-        image.setBackgroundResource(R.drawable.santa_cruz_2013);
+        
+        
+        
         
         //get the Evento from position
         Produto produto = getItem(position);
- 
+        int drawable=R.drawable.santa_cruz_2013;
+        if(produto.getNomeProduto().equals("Calção Oficial")){
+        	drawable=R.drawable.calcao_santa_cruz;
+        }
+        
+        if(produto.getNomeProduto().equals("Camisa Polo")){
+        	drawable=R.drawable.camisa_polo_santa_cruz;
+        }
+        if(produto.getNomeProduto().equals("Garrafa Oficial")){
+        	drawable=R.drawable.garrafa_santa_cruz;
+        }
+        if(produto.getNomeProduto().equals("Ingresso")){
+        	drawable=R.drawable.ingresso_santa_cruz;
+        }
+        if(produto.getNomeProduto().equals("Toalha Oficial")){
+        	drawable=R.drawable.toalha_santa_cruz;
+        }
         //fill the view objects according values from Evento object
         nome.setText(produto.getNomeProduto());
-        preco.setText(Float.toString(produto.getPreco()));
+        preco.setText("R$ "+Float.toString(produto.getPreco())+"0");
         
-      
+        image.setBackgroundResource(drawable);
         
         return convertView;
     }
