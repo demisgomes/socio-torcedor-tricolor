@@ -5,6 +5,9 @@ import java.util.List;
 
 
 
+
+import bd.Banco;
+
 import com.example.sociotorcedortricolor.R;
 
 import dominio.Produto;
@@ -29,11 +32,13 @@ public class CustomAdapter extends ArrayAdapter<Produto> {
      * each list item layout ID
      */
     private final int resourceId;
+    private final Banco banco;
  
     public CustomAdapter(Context context, int resource, List<Produto> objects) {
         super(context, resource, objects);
         this.inflater = LayoutInflater.from(context);
         this.resourceId = resource;
+        this.banco = new Banco (context);
     }
  
     @Override
@@ -48,11 +53,11 @@ public class CustomAdapter extends ArrayAdapter<Produto> {
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
         TextView nome = (TextView) convertView.findViewById(R.id.titulo);
         TextView preco = (TextView) convertView.findViewById(R.id.preco);
-
+        TextView qtd = (TextView) convertView.findViewById(R.id.qtd);
         
         
         
-        
+     
         //get the Evento from position
         Produto produto = getItem(position);
         int drawable=R.drawable.santa_cruz_2013;
@@ -77,7 +82,7 @@ public class CustomAdapter extends ArrayAdapter<Produto> {
         preco.setText("R$ "+Float.toString(produto.getPreco())+"0");
         
         image.setBackgroundResource(drawable);
-        
+    	qtd.setText(Integer.toString(banco.getCountProduto(produto.getNomeProduto()))+" produtos disponíveis");
         return convertView;
     }
  
