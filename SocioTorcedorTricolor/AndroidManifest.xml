@@ -43,6 +43,14 @@
             android:name="com.example.sociotorcedortricolor.TelaAbas"
             android:label="@string/title_activity_tela_abas" >
         </activity>
+        <activity
+            android:name="com.example.sociotorcedortricolor.TelaPerfil"
+            android:label="@string/title_activity_tela_perfil"
+            android:parentActivityName="com.example.sociotorcedortricolor.TelaAbas" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.sociotorcedortricolor.TelaAbas" />
+        </activity>
     </application>
 
 </manifest>
