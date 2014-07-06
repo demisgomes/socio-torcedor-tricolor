@@ -46,7 +46,7 @@ public class FragmentLoja extends Fragment {
 				container, false);
 		ArrayList<Produto> listaProdutos=new ArrayList<Produto>();
 		bd.Banco banco=new bd.Banco(getActivity());
-		listaProdutos=banco.retorneListaProdutos();
+		listaProdutos=banco.retorneListaProdutosSeparados();
 		//faz o listView ter os nomes de times
 		 ArrayAdapter ad = new CustomAdapter(getActivity(), R.layout.item_lista_produtos, listaProdutos);
 	     ListView lv = (ListView) rootView.findViewById(R.id.lvProdutos);

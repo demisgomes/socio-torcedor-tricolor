@@ -335,6 +335,50 @@ public class Banco {
 		}
 	}
 	
+	public ArrayList <Produto> retorneListaProdutosSeparados(){
+		try {
+			Cursor cursor;
+			openBd();
+			String sql="SELECT * FROM tabelaProdutos GROUP BY nome";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			ArrayList<Produto> listaProdutos=new ArrayList<Produto>();
+			for(int i=1;i<cursor.getCount();i++){
+				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")));
+				listaProdutos.add(p);
+				if(i!=cursor.getCount()-1){
+					cursor.moveToNext();
+				}	
+			}
+			return listaProdutos;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public int getCountProduto(String nomeProduto){
+		try {
+			Cursor cursor;
+			openBd();
+			String sql="SELECT COUNT(nome) FROM tabelaProdutos WHERE nome LIKE '"+nomeProduto+"'";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			
+			return cursor.getInt(0);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return 0;
+		}
+		finally{
+			closeBd();
+		}
+	}
 	
 	
 	
