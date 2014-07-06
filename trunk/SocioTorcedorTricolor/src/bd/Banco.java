@@ -150,6 +150,26 @@ public class Banco {
 		}
 	}
 	
+	//Método para retornar sem abrir ou fechar a conexão.
+	//para métodos que usem esta característica
+	public Produto retorneProduto(String codigo, String semFecharEAbrir){
+		try {
+			Cursor cursor;
+			String sql="SELECT * FROM tabelaProdutos WHERE codigo LIKE '"+codigo+"'";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			System.out.println(cursor.getCount());
+			System.out.println(cursor.getString(cursor.getColumnIndex("nome")));
+			Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")));
+			return p;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
 	public void cadastrarSocio(Socio socio){
 		try{
 			openBd();
@@ -253,8 +273,8 @@ public class Banco {
 		try{
 			openBd();
 			int novosPontos=socio.getPontos()+pontos;
-			String update="UPDATE "+tabelaSocios+" SET nome='"+socio.getNome()+"', dataNascimento='26/11/2005', email='"+socio.getEmail()+"', senha='"+socio.getSenha()+"', sexo='"+socio.getSenha()+"', pontos='"+novosPontos+"', ranking='"+socio.getRanking()+"', tipoSocio='"+socio.getTipoSocio()+"', cpf='"+socio.getCpf()+"', telefone='"+socio.getTelefone()+"'";
-			//String update= "UPDATE "+tabelaSocios+" SET pontos='"+novosPontos+"' WHERE _id LIKE '"+usuarioGetId(socio.getEmail())+"'";
+			//String update="UPDATE "+tabelaSocios+" SET nome='"+socio.getNome()+"', dataNascimento='26/11/2005', email='"+socio.getEmail()+"', senha='"+socio.getSenha()+"', sexo='"+socio.getSenha()+"', pontos='"+novosPontos+"', ranking='"+socio.getRanking()+"', tipoSocio='"+socio.getTipoSocio()+"', cpf='"+socio.getCpf()+"', telefone='"+socio.getTelefone()+"'";
+			String update= "UPDATE "+tabelaSocios+" SET pontos='"+novosPontos+"' WHERE _id LIKE '"+usuarioGetId(socio.getEmail())+"'";
 			bancoDados.execSQL(update);
 			validarLogin(socio.getEmail(), socio.getSenha());
 		}
@@ -287,6 +307,31 @@ public class Banco {
 		}
 		finally{
 			closeBd();
+		}
+	}
+	
+	public void deletarProduto(Produto produto){
+		try {
+			openBd();
+			System.out.println(produto.getCodigo());
+			String sql="DELETE FROM tabelaProdutos WHERE codigo LIKE '"+produto.getCodigo()+"'";
+			bancoDados.execSQL(sql);
+		} catch (Exception e) {
+			// TODO: handle exception 
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public void deletarProduto(Produto produto, String semAbrireFechar){
+		try {
+			String sql="DELETE FROM tabelaProdutos WHERE codigo LIKE '"+produto.getCodigo()+"'";
+			bancoDados.rawQuery(sql, null);
+		} catch (Exception e) {
+			// TODO: handle exception 
+			e.printStackTrace();
 		}
 	}
 	
