@@ -1,9 +1,13 @@
 package com.example.sociotorcedortricolor;
 
+import Fragments.FragmentCodigo;
+import Fragments.FragmentLoja;
+import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -21,7 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class TelaInicial extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, ActionBar.TabListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -32,64 +36,58 @@ public class TelaInicial extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-
+    
+    private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_inicial);
+        final ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+     // for each of the sections in the app, add a tab to the action bar.
+        actionBar.addTab(actionBar.newTab().setText("Loja")
+            .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Código")
+            .setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Boleto")
+            .setTabListener(this));
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+        //mTitle = getTitle();
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
+       mNavigationDrawerFragment.setUp(
+               R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        
+        
+
+        
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+        //FragmentManager fragmentManager = getFragmentManager();
+        //fragmentManager.beginTransaction()
+                //.//replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                //.commit();
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
-
-    @Override
+    
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
+        /*if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.tela_inicial, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
+            //getMenuInflater().inflate(R.menu.tela_inicial, menu);
+            restoreActionBar();*/
+    		getMenuInflater().inflate(R.menu.global, menu);
+       
+        
+    		return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -97,10 +95,7 @@ public class TelaInicial extends Activity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        
         return super.onOptionsItemSelected(item);
     }
 
@@ -140,14 +135,16 @@ public class TelaInicial extends Activity
             
             btnCodigo.setOnClickListener(this);
             btnBoleto.setOnClickListener(this);
+            
+            
             return rootView;
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((TelaInicial) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+            //((TelaInicial) activity).onSectionAttached(
+                    //getArguments().getInt(ARG_SECTION_NUMBER));
         }
 
 		@Override
@@ -162,6 +159,58 @@ public class TelaInicial extends Activity
 				startActivity(intent);
 			}
 		}
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+      // Restore the previously serialized current tab position.
+      if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
+        getActionBar().setSelectedNavigationItem(savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+      }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+      // Serialize the current tab position.
+      outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar()
+          .getSelectedNavigationIndex());
+    }
+
+    
+    @Override
+    public void onTabSelected(ActionBar.Tab tab,
+        FragmentTransaction fragmentTransaction) {
+      // When the given tab is selected, show the tab contents in the
+      // container view.
+    	Fragment fragment=new PlaceholderFragment();
+    	if(tab.getPosition()==0){
+			fragment= new FragmentLoja();
+		}
+		if(tab.getPosition()==1){
+			fragment= new FragmentCodigo();
+		}
+			
+      //Fragment fragment = new PlaceholderFragment();
+      Bundle args = new Bundle();
+      if(tab.getPosition()==2){
+    	  args.putInt(PlaceholderFragment.ARG_SECTION_NUMBER,
+    	          tab.getPosition() + 1);
+    	  fragment.setArguments(args);
+      }
+      
+      
+      getFragmentManager().beginTransaction()
+          .replace(R.id.container, fragment).commit();
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab,
+        FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab,
+        FragmentTransaction fragmentTransaction) {
     }
 
 }
