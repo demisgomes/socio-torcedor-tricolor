@@ -1,5 +1,6 @@
 package com.example.sociotorcedortricolor;
 
+import dominio.Socio;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -18,7 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -56,7 +59,8 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
-
+    private TextView tvNomePerfil,tvTipoSocio,tvEmail, tvPontos;
+	private Button btnHistorico;
     public NavigationDrawerFragment() {
     }
 
@@ -88,26 +92,43 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+    	View rootView = inflater.inflate(R.layout.fragment_navigation_drawer,
+				container, false);
+    	tvNomePerfil= (TextView) rootView.findViewById(R.id.tvNomePerfil);
+		tvTipoSocio= (TextView) rootView.findViewById(R.id.tvTipoSocio);
+		tvEmail= (TextView) rootView.findViewById(R.id.tvEmail);
+		tvPontos= (TextView) rootView.findViewById(R.id.tvPontos);
+		btnHistorico= (Button) rootView.findViewById(R.id.btnHistorico);
+		
+		Socio socio= Socio.getSocioLogado();
+		
+		tvNomePerfil.setText(socio.getNome());
+		tvTipoSocio.setText(socio.getTipoSocio());
+		tvEmail.setText(socio.getEmail());
+		tvPontos.setText("Pontos "+ Integer.toString(socio.getPontos()));
+		
+		return rootView;
     }
+        //mDrawerListView = (ListView) inflater.inflate(
+                //R.layout.fragment_navigation_drawer, container, false);
+        //mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //@Override
+            //public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            //    //selectItem(position);
+            
+        //});
+        //mDrawerListView.setAdapter(new ArrayAdapter<String>(
+                //getActionBar().getThemedContext(),
+                //android.R.layout.simple_list_item_activated_1,
+                //android.R.id.text1,
+                //new String[]{
+                        //getString(R.string.title_section1),
+                        //getString(R.string.title_section2),
+                       // getString(R.string.title_section3),
+               // }));
+       // mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        //return mDrawerListView;
+    
 
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
