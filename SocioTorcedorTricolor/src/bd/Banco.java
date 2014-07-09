@@ -14,6 +14,7 @@ public class Banco {
 	private final Context context;
 	private final String tabelaProdutos="tabelaProdutos";
 	private final String tabelaSocios="tabelaSocios";
+	private final String tabelaPontosUsuario="tabelaPontosUsuario";
 	private static int versaoBD=1;
 	private BDhelper bdHelper;
 	private SQLiteDatabase bancoDados;
@@ -41,8 +42,10 @@ public class Banco {
 				String sql = "CREATE TABLE IF NOT EXISTS "+tabelaSocios+" (_id INTEGER PRIMARY KEY, nome TEXT, dataNascimento TEXT, email TEXT, senha TEXT, sexo TEXT, pontos INTEGER, ranking INTEGER, tipoSocio TEXT, cpf TEXT, telefone TEXT)";
 				db.execSQL(sql);
 				//TABELA DE EVENTOS (tabelaEventos)
-				String sqlEvento = "CREATE TABLE IF NOT EXISTS "+tabelaProdutos+" (_id INTEGER PRIMARY KEY, codigo TEXT, nome TEXT, preco FLOAT)";
+				String sqlEvento = "CREATE TABLE IF NOT EXISTS "+tabelaProdutos+" (_id INTEGER PRIMARY KEY, codigo TEXT, nome TEXT, preco FLOAT, pontos INTEGER, adquirido INTEGER)";
 				db.execSQL(sqlEvento);
+				String sqlPontosUsuario = "CREATE TABLE IF NOT EXISTS "+tabelaPontosUsuario+" (_id INTEGER PRIMARY KEY, idProduto INTEGER, idUsuario INTEGER)";
+				db.execSQL(sqlPontosUsuario);
 		}
 
 		
@@ -85,23 +88,23 @@ public class Banco {
 	
 	public ArrayList <Produto> carregueListaProdutos(){
 		ListaDeProdutos=new ArrayList<Produto>();
-		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R4-T9Y0", (float)189.90));
-		ListaDeProdutos.add(new Produto("Calção Oficial", "G7R2-T4I0", (float)99.90));
-		ListaDeProdutos.add(new Produto("Camisa Polo", "GRR4-T5Y0", (float)49.90));
-		ListaDeProdutos.add(new Produto("Garrafa Ofical", "G7R4-T9Q0", (float)9.90));
-		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R2-T9Y0", (float)189.90));
-		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R3-T9Y0", (float)189.90));
-		ListaDeProdutos.add(new Produto("Toalha Oficial", "G7R5-T9Y0", (float)189.90));
-		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G7R6-T9Y0", (float)189.90));
-		ListaDeProdutos.add(new Produto("Toalha Oficial", "G7R7-T9Y0", (float)189.90));
-		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R8-T9Y0", (float)189.90));
+		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R4-T9Y0", (float)189.90, 1500));
+		ListaDeProdutos.add(new Produto("Calção Oficial", "G7R2-T4I0", (float)99.90, 1200));
+		ListaDeProdutos.add(new Produto("Camisa Polo", "GRR4-T5Y0", (float)89.90, 1000));
+		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G7R4-T9Q0", (float)9.90, 500));
+		ListaDeProdutos.add(new Produto("Toalha Oficial", "G7R2-T9Y0", (float)29.90, 600));
+		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R3-T9Y0", (float)189.90, 1500));
+		ListaDeProdutos.add(new Produto("Toalha Oficial", "G7R5-T9Y0", (float)29.90, 600));
+		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G7R6-T9Y0", (float)9.90, 500));
+		ListaDeProdutos.add(new Produto("Toalha Oficial", "G7R7-T9Y0", (float)29.90, 600));
+		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R8-T9Y0", (float)189.90, 1500));
 		
 		return ListaDeProdutos;
 		
 	}
 	
-	public String insertProdutoHelper(String nome, String codigo, float preco){
-		String sql="INSERT INTO tabelaProdutos (codigo, nome, preco) VALUES ('"+codigo+"','"+nome+"','"+preco+"')";
+	public String insertProdutoHelper(String nome, String codigo, float preco, int pontos){
+		String sql="INSERT INTO tabelaProdutos (codigo, nome, preco, pontos, adquirido) VALUES ('"+codigo+"','"+nome+"','"+preco+"','"+pontos+"', '0')";
 		return sql;
 	}
 	
@@ -117,7 +120,7 @@ public class Banco {
 			ArrayList<Produto> lista=carregueListaProdutos();
 			for (int i=0;i<lista.size();i++){
 				Produto p=(Produto)lista.get(i);
-				String sql=insertProdutoHelper(p.getNomeProduto(), p.getCodigo(), p.getPreco());
+				String sql=insertProdutoHelper(p.getNomeProduto(), p.getCodigo(), p.getPreco(), p.getPontos());
 				bancoDados.execSQL(sql);
 			}
 		}
@@ -138,7 +141,7 @@ public class Banco {
 			cursor.moveToFirst();
 			System.out.println(cursor.getCount());
 			System.out.println(cursor.getString(cursor.getColumnIndex("nome")));
-			Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")));
+			Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getInt(cursor.getColumnIndex("pontos")));
 			return p;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -160,7 +163,7 @@ public class Banco {
 			cursor.moveToFirst();
 			System.out.println(cursor.getCount());
 			System.out.println(cursor.getString(cursor.getColumnIndex("nome")));
-			Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")));
+			Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getInt(cursor.getColumnIndex("pontos")));
 			return p;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -213,7 +216,7 @@ public class Banco {
 			cursor.moveToFirst();
 			ArrayList<Produto> listaProdutos=new ArrayList<Produto>();
 			for(int i=1;i<cursor.getCount();i++){
-				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")));
+				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")),cursor.getInt(cursor.getColumnIndex("pontos")));
 				listaProdutos.add(p);
 				if(i!=cursor.getCount()-1){
 					cursor.moveToNext();
@@ -288,17 +291,17 @@ public class Banco {
 	
 	public void inserirProdutos(){
 		ListaDeProdutos=new ArrayList<Produto>();
-		ListaDeProdutos.add(new Produto("Calção Oficial", "G7A2-T4I0", (float)99.90));
-		ListaDeProdutos.add(new Produto("Camisa Polo", "GRB4-T5Y0", (float)49.90));
-		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G9R4-T9Q0", (float)9.90));
-		ListaDeProdutos.add(new Produto("Toalha Oficial", "G9R5-T9Y0", (float)19.90));
-		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G9R6-T9Y0", (float)189.90));
+		ListaDeProdutos.add(new Produto("Calção Oficial", "G7A2-T4I0", (float)99.90, 500));
+		ListaDeProdutos.add(new Produto("Camisa Polo", "GRB4-T5Y0", (float)49.90, 800));
+		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G9R4-T9Q0", (float)9.90, 400));
+		ListaDeProdutos.add(new Produto("Toalha Oficial", "G9R5-T9Y0", (float)19.90, 500));
+		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G9R6-T9Y0", (float)189.90, 400));
 		try{
 			openBd();
 			ArrayList<Produto> lista=ListaDeProdutos;
 			for (int i=0;i<lista.size();i++){
 				Produto p=(Produto)lista.get(i);
-				String sql=insertProdutoHelper(p.getNomeProduto(), p.getCodigo(), p.getPreco());
+				String sql=insertProdutoHelper(p.getNomeProduto(), p.getCodigo(), p.getPreco(), p.getPontos());
 				bancoDados.execSQL(sql);
 			}
 		}
@@ -344,12 +347,13 @@ public class Banco {
 			cursor.moveToFirst();
 			ArrayList<Produto> listaProdutos=new ArrayList<Produto>();
 			for(int i=1;i<cursor.getCount();i++){
-				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")));
+				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getInt(cursor.getColumnIndex("pontos")));
 				listaProdutos.add(p);
 				if(i!=cursor.getCount()-1){
 					cursor.moveToNext();
 				}	
 			}
+			Produto.setListaProdutosSeparados(listaProdutos);
 			return listaProdutos;
 		} catch (Exception e) {
 			// TODO: handle exception

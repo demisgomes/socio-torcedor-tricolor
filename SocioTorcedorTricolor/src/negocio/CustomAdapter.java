@@ -54,7 +54,7 @@ public class CustomAdapter extends ArrayAdapter<Produto> {
         TextView nome = (TextView) convertView.findViewById(R.id.titulo);
         TextView preco = (TextView) convertView.findViewById(R.id.preco);
         TextView qtd = (TextView) convertView.findViewById(R.id.qtd);
-        
+        TextView pontos = (TextView) convertView.findViewById(R.id.pontos);
         
         
      
@@ -80,7 +80,7 @@ public class CustomAdapter extends ArrayAdapter<Produto> {
         //fill the view objects according values from Evento object
         nome.setText(produto.getNomeProduto());
         preco.setText("R$ "+Float.toString(produto.getPreco())+"0");
-        
+        pontos.setText(produto.getPontos()+" pontos");
         image.setBackgroundResource(drawable);
     	qtd.setText(Integer.toString(banco.getCountProduto(produto.getNomeProduto()))+" produtos disponíveis");
         return convertView;

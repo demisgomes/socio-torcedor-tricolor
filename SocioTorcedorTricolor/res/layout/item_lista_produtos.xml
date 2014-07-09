@@ -22,21 +22,44 @@
             android:id="@+id/titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="19sp" />
+            android:textSize="16sp"
+            android:text="Cadê este titulo?" />
  
         <TextView
             android:id="@+id/preco"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="11sp" />
-        
-        <TextView
+            android:textSize="11sp" 
+            android:text="Cadê este Preço?"/>
+        	  
+           
+            <LinearLayout 
+                android:id="@+id/ly1"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:gravity="right"
+                android:layout_marginLeft="120dp"
+                android:layout_marginBottom="200dp"
+                android:orientation="vertical">
+                
+                <TextView
+            android:id="@+id/pontos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:text="Cadê este ponto?"  />
+                <TextView
             android:id="@+id/qtd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:textSize="11sp" />
+            android:textSize="11sp" 
+            android:text="Cadê este texto?"/>
+                
+                
+            </LinearLayout>
+           	
  
+        
     </LinearLayout> 
  	 
 </LinearLayout>

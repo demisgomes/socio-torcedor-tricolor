@@ -6,16 +6,34 @@ import negocio.CustomAdapter;
 
 
 
+
+
+
+
+
+
+
+import bd.Banco;
+
 import com.example.sociotorcedortricolor.R;
 
 import dominio.Produto;
+import dominio.Socio;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class FragmentLoja extends Fragment {
@@ -54,6 +72,89 @@ public class FragmentLoja extends Fragment {
 		
 	     TextView tvSociosAptos= (TextView) rootView.findViewById(R.id.tvSociosAptos);
 	     tvSociosAptos.setText("Sócios Adimplentes: "+ banco.conteSocios());
+	     
+	    lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					final int position, long id) {
+				
+				
+				Banco banco=new Banco(getActivity());
+				
+				int qtd=banco.getCountProduto(Produto.getListaProdutosSeparados().get(position).getNomeProduto());
+				
+				String array_spinner[];
+				array_spinner=new String[qtd];
+				
+				for (int i=0;i<array_spinner.length;i++){
+					array_spinner[i]=Integer.toString(i+1);
+				}
+								
+				final ArrayAdapter<String> adp = new ArrayAdapter<String>(getActivity(),
+			            android.R.layout.simple_spinner_item, array_spinner);
+
+			    final Spinner sp = new Spinner(getActivity());
+			    sp.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
+			    sp.setAdapter(adp);
+			    
+			    
+			    DialogInterface.OnClickListener listener= new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						int qtdDesejada=sp.getSelectedItemPosition()+1;
+						int pontosCompra= Produto.getListaProdutosSeparados().get(position).getPontos()*qtdDesejada;
+						int pontosSocio= Socio.getSocioLogado().getPontos();
+						String mensagem;
+						if(pontosSocio>=pontosCompra){
+							 mensagem="Compra efetuada com sucesso!";
+							
+						}
+						else{
+							mensagem="Você não tem pontos suficientes";
+							
+						}
+						
+						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					    builder.setMessage(mensagem)
+					       .setTitle("Compra");
+					    builder.create().show();
+						
+					}
+				};
+
+			    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			    builder.setView(sp);
+			    builder.setMessage(" Escolha a quantidade de prodtuos")
+			       .setTitle("Compra").setPositiveButton("OK", listener);
+			    builder.create().show();
+				
+			    
+				/*Context mContext = getActivity().getApplicationContext();
+				LayoutInflater inflater = LayoutInflater.from(mContext);
+				View layout = inflater.inflate(R.layout.spinner,null);
+
+				
+
+				Spinner s = (Spinner) layout.findViewById(R.id.Spinner01);
+
+				ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item, array_spinner);
+
+				s.setAdapter(adapter);
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+				builder.setView(layout);
+				//AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+				builder.setMessage(" Escolha a quantidade de prodtuos")
+				       .setTitle("Compra");
+				
+				AlertDialog dialog = builder.create();
+				dialog.show();*/
+			}
+	    	 
+	     
+	    });
 		return rootView;
 	}
 }
