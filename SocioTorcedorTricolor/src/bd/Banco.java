@@ -1,6 +1,7 @@
 package bd;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import negocio.CalculoPontos;
 import dominio.Produto;
@@ -45,7 +46,7 @@ public class Banco {
 				//TABELA DE EVENTOS (tabelaEventos)
 				String sqlEvento = "CREATE TABLE IF NOT EXISTS "+tabelaProdutos+" (_id INTEGER PRIMARY KEY, codigo TEXT, nome TEXT, preco FLOAT, pontos INTEGER, adquirido INTEGER)";
 				db.execSQL(sqlEvento);
-				String sqlPontosUsuario = "CREATE TABLE IF NOT EXISTS "+tabelaPontosUsuario+" (_id INTEGER PRIMARY KEY, idProduto INTEGER, idUsuario INTEGER, pontosAdquiridos INTEGER)";
+				String sqlPontosUsuario = "CREATE TABLE IF NOT EXISTS "+tabelaPontosUsuario+" (_id INTEGER PRIMARY KEY, idProduto INTEGER, idUsuario INTEGER, pontosAdquiridos INTEGER, dataCompra DATE)";
 				db.execSQL(sqlPontosUsuario);
 		}
 
@@ -311,6 +312,9 @@ public class Banco {
 		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G9R4-T9Q0", (float)9.90, 400));
 		ListaDeProdutos.add(new Produto("Toalha Oficial", "G9R5-T9Y0", (float)19.90, 500));
 		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G9R6-T9Y0", (float)189.90, 400));
+		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G9R4-T7Q0", (float)9.90, 400));
+		ListaDeProdutos.add(new Produto("Toalha Oficial", "G9R5-T7Y0", (float)19.90, 500));
+		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G9R6-T7Y0", (float)189.90, 400));
 		try{
 			openBd();
 			ArrayList<Produto> lista=ListaDeProdutos;
@@ -361,9 +365,10 @@ public class Banco {
 			cursor=bancoDados.rawQuery(sql, null);
 			cursor.moveToFirst();
 			ArrayList<Produto> listaProdutos=new ArrayList<Produto>();
-			for(int i=1;i<cursor.getCount();i++){
+			for(int i=0;i<cursor.getCount();i++){
 				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getInt(cursor.getColumnIndex("pontos")));
 				listaProdutos.add(p);
+				System.out.println(p.getNomeProduto());
 				if(i!=cursor.getCount()-1){
 					cursor.moveToNext();
 				}	
@@ -399,21 +404,22 @@ public class Banco {
 		}
 	}
 	
-	public void inserirCompraHistorico(String nomeProduto, int qtd, Socio socio){
+	public void inserirCompraHistorico(String nomeProduto, int qtd, Socio socio, Date data){
 		try {
 			openBd();
 			Cursor cursor;
-			String sql="SELECT * FROM tabelaProdutos WHERE nome LIKE '"+nomeProduto+"'";
+			String sql="SELECT * FROM tabelaProdutos WHERE nome LIKE '"+nomeProduto+"' AND adquirido = '0'";
 			cursor=bancoDados.rawQuery(sql, null);
 			cursor.moveToFirst();
-			for(int i=0;i<2;i++){
+			for(int i=0;i<qtd;i++){
 				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getInt(cursor.getColumnIndex("pontos")));
 				String update= "UPDATE "+tabelaProdutos+" SET adquirido='1' WHERE _id LIKE '"+cursor.getInt(0)+"'";
 				bancoDados.execSQL(update);
 				CalculoPontos calculo =new CalculoPontos(null, socio, p.getPreco());
-				String inserePontosUsuario="INSERT INTO "+tabelaPontosUsuario+"(idProduto, idUsuario, pontosAdquiridos) VALUES ('"+cursor.getInt(0)+"', '"+usuarioGetId(socio.getEmail())+"', '"+calculo.getPontos()+"')";
+				String inserePontosUsuario="INSERT INTO "+tabelaPontosUsuario+"(idProduto, idUsuario, pontosAdquiridos, dataCompra) VALUES ('"+cursor.getInt(0)+"', '"+usuarioGetId(socio.getEmail())+"', '"+(calculo.getPontos())+"', '"+data+"')";
 				bancoDados.execSQL(inserePontosUsuario);
-				
+				//String updateUsuario= "UPDATE "+tabelaSocios+" SET pontos='"+(calculo.getPontos()+socio.getPontos())+"' WHERE _id LIKE '"+usuarioGetId(socio.getEmail())+"'";
+				//bancoDados.execSQL(updateUsuario);
 				if(i!=cursor.getCount()-1){
 					cursor.moveToNext();
 				}

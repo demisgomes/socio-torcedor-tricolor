@@ -1,5 +1,8 @@
 package com.example.sociotorcedortricolor;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import bd.Banco;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -61,10 +64,13 @@ public class TelaLogin extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_tela_login);
 		Banco banco=new Banco(this);
 		banco.criarBanco();
-		System.out.println(banco.validarLogin("d@", "demis"));
 		if(banco.retorneProduto("G7R4-T9Y0")==null){
 			banco.populeBanco();
 		}
+		
+		//banco.inserirProdutos();
+		Date date=new Date();
+		System.out.println(date);
 		
 		// Set up the login form.
 		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
