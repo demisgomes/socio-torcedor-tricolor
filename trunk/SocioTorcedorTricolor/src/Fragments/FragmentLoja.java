@@ -1,7 +1,9 @@
 package Fragments;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import negocio.CalculoPontos;
 import negocio.CustomAdapter;
 
 
@@ -65,6 +67,10 @@ public class FragmentLoja extends Fragment {
 		ArrayList<Produto> listaProdutos=new ArrayList<Produto>();
 		bd.Banco banco=new bd.Banco(getActivity());
 		listaProdutos=banco.retorneListaProdutosSeparados();
+		
+		//for(Produto p: listaProdutos){
+			//System.out.println(p.getNomeProduto());
+		//}
 		//faz o listView ter os nomes de times
 		 ArrayAdapter ad = new CustomAdapter(getActivity(), R.layout.item_lista_produtos, listaProdutos);
 	     ListView lv = (ListView) rootView.findViewById(R.id.lvProdutos);
@@ -110,7 +116,13 @@ public class FragmentLoja extends Fragment {
 						if(pontosSocio>=pontosCompra){
 							 mensagem="Compra efetuada com sucesso!";
 							Banco banco=new Banco(getActivity());
-							banco.inserirCompraHistorico(Produto.getListaProdutosSeparados().get(position).getNomeProduto(), qtdDesejada, Socio.getSocioLogado());
+							Date date=new Date();
+							banco.inserirCompraHistorico(Produto.getListaProdutosSeparados().get(position).getNomeProduto(), qtdDesejada, Socio.getSocioLogado(), date);
+							Banco banco2=new Banco (getActivity());
+							banco2.updatePontosSocio(Socio.getSocioLogado(), -(qtdDesejada*Produto.getListaProdutosSeparados().get(position).getPontos()));
+							Banco banco3= new Banco(getActivity());
+							CalculoPontos calculo=new CalculoPontos(null, Socio.getSocioLogado(), Produto.getListaProdutosSeparados().get(position).getPreco());
+							banco3.updatePontosSocio(Socio.getSocioLogado(), (calculo.getPontos()*qtdDesejada));
 						}
 						else{
 							mensagem="Você não tem pontos suficientes";
@@ -127,7 +139,7 @@ public class FragmentLoja extends Fragment {
 
 			    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			    builder.setView(sp);
-			    builder.setMessage(" Escolha a quantidade de prodtuos")
+			    builder.setMessage(" Escolha a quantidade de produtos")
 			       .setTitle("Compra").setPositiveButton("OK", listener);
 			    builder.create().show();
 				
