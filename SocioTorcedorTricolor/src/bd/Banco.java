@@ -384,7 +384,7 @@ public class Banco {
 		try {
 			Cursor cursor;
 			openBd();
-			String sql="SELECT COUNT(nome) FROM tabelaProdutos WHERE nome LIKE '"+nomeProduto+"'";
+			String sql="SELECT COUNT(nome) FROM tabelaProdutos WHERE nome LIKE '"+nomeProduto+"' AND adquirido <> 1";
 			cursor=bancoDados.rawQuery(sql, null);
 			cursor.moveToFirst();
 			
