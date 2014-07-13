@@ -65,6 +65,7 @@ public class TelaLogin extends Activity implements OnClickListener {
 		if(banco.retorneProduto("G7R4-T9Y0")==null){
 			banco.populeBanco();
 		}
+		
 		// Set up the login form.
 		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
 		mEmailView = (EditText) findViewById(R.id.email);
