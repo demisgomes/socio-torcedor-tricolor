@@ -109,7 +109,8 @@ public class FragmentLoja extends Fragment {
 						String mensagem;
 						if(pontosSocio>=pontosCompra){
 							 mensagem="Compra efetuada com sucesso!";
-							
+							Banco banco=new Banco(getActivity());
+							banco.inserirCompraHistorico(Produto.getListaProdutosSeparados().get(position).getNomeProduto(), qtdDesejada, Socio.getSocioLogado());
 						}
 						else{
 							mensagem="Você não tem pontos suficientes";

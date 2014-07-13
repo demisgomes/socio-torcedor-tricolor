@@ -1,5 +1,7 @@
 package com.example.sociotorcedortricolor;
 
+import dominio.Socio;
+import bd.Banco;
 import Fragments.FragmentCodigo;
 import Fragments.FragmentLoja;
 import android.app.ActionBar.Tab;
@@ -63,7 +65,8 @@ public class TelaInicial extends Activity
         
         
 
-        
+       //Banco banco2=new Banco(this);
+       //banco2.updatePontosSocio(Socio.getSocioLogado(), 3000);
     }
 
     @Override

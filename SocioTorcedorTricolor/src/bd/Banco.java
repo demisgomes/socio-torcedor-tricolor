@@ -2,6 +2,7 @@ package bd;
 
 import java.util.ArrayList;
 
+import negocio.CalculoPontos;
 import dominio.Produto;
 import dominio.Socio;
 import android.content.Context;
@@ -44,7 +45,7 @@ public class Banco {
 				//TABELA DE EVENTOS (tabelaEventos)
 				String sqlEvento = "CREATE TABLE IF NOT EXISTS "+tabelaProdutos+" (_id INTEGER PRIMARY KEY, codigo TEXT, nome TEXT, preco FLOAT, pontos INTEGER, adquirido INTEGER)";
 				db.execSQL(sqlEvento);
-				String sqlPontosUsuario = "CREATE TABLE IF NOT EXISTS "+tabelaPontosUsuario+" (_id INTEGER PRIMARY KEY, idProduto INTEGER, idUsuario INTEGER)";
+				String sqlPontosUsuario = "CREATE TABLE IF NOT EXISTS "+tabelaPontosUsuario+" (_id INTEGER PRIMARY KEY, idProduto INTEGER, idUsuario INTEGER, pontosAdquiridos INTEGER)";
 				db.execSQL(sqlPontosUsuario);
 		}
 
@@ -289,6 +290,20 @@ public class Banco {
 		}
 	}
 	
+	public void updatePontosSocio(Socio socio, int pontos, String semAbrirEFechar){
+		try{
+			int novosPontos=socio.getPontos()+pontos;
+			//String update="UPDATE "+tabelaSocios+" SET nome='"+socio.getNome()+"', dataNascimento='26/11/2005', email='"+socio.getEmail()+"', senha='"+socio.getSenha()+"', sexo='"+socio.getSenha()+"', pontos='"+novosPontos+"', ranking='"+socio.getRanking()+"', tipoSocio='"+socio.getTipoSocio()+"', cpf='"+socio.getCpf()+"', telefone='"+socio.getTelefone()+"'";
+			String update= "UPDATE "+tabelaSocios+" SET pontos='"+novosPontos+"' WHERE _id LIKE '"+usuarioGetId(socio.getEmail())+"'";
+			bancoDados.execSQL(update);
+			validarLogin(socio.getEmail(), socio.getSenha());
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	
+	}
+	
 	public void inserirProdutos(){
 		ListaDeProdutos=new ArrayList<Produto>();
 		ListaDeProdutos.add(new Produto("Calção Oficial", "G7A2-T4I0", (float)99.90, 500));
@@ -342,7 +357,7 @@ public class Banco {
 		try {
 			Cursor cursor;
 			openBd();
-			String sql="SELECT * FROM tabelaProdutos GROUP BY nome";
+			String sql="SELECT * FROM tabelaProdutos WHERE adquirido != 1 GROUP BY nome";
 			cursor=bancoDados.rawQuery(sql, null);
 			cursor.moveToFirst();
 			ArrayList<Produto> listaProdutos=new ArrayList<Produto>();
@@ -382,6 +397,40 @@ public class Banco {
 		finally{
 			closeBd();
 		}
+	}
+	
+	public void inserirCompraHistorico(String nomeProduto, int qtd, Socio socio){
+		try {
+			openBd();
+			Cursor cursor;
+			String sql="SELECT * FROM tabelaProdutos WHERE nome LIKE '"+nomeProduto+"'";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			for(int i=0;i<2;i++){
+				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getInt(cursor.getColumnIndex("pontos")));
+				String update= "UPDATE "+tabelaProdutos+" SET adquirido='1' WHERE _id LIKE '"+cursor.getInt(0)+"'";
+				bancoDados.execSQL(update);
+				CalculoPontos calculo =new CalculoPontos(null, socio, p.getPreco());
+				String inserePontosUsuario="INSERT INTO "+tabelaPontosUsuario+"(idProduto, idUsuario, pontosAdquiridos) VALUES ('"+cursor.getInt(0)+"', '"+usuarioGetId(socio.getEmail())+"', '"+calculo.getPontos()+"')";
+				bancoDados.execSQL(inserePontosUsuario);
+				
+				if(i!=cursor.getCount()-1){
+					cursor.moveToNext();
+				}
+				else{
+					updatePontosSocio(Socio.getSocioLogado(), p.getPontos()*qtd, "");
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception 
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+		
+		
 	}
 	
 	
