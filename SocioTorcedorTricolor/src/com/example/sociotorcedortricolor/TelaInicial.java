@@ -63,10 +63,6 @@ public class TelaInicial extends Activity
                R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         
-        
-
-       //Banco banco2=new Banco(this);
-       //banco2.updatePontosSocio(Socio.getSocioLogado(), 3000);
     }
 
     @Override

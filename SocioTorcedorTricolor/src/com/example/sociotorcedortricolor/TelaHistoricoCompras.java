@@ -2,7 +2,6 @@ package com.example.sociotorcedortricolor;
 
 import java.util.ArrayList;
 
-import negocio.CustomAdapter;
 import negocio.HistoricoPontosAdapter;
 import dominio.Produto;
 import dominio.Socio;
@@ -19,28 +18,27 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.os.Build;
 
-public class TelaHistoricoPontos extends Activity {
+public class TelaHistoricoCompras extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_tela_historico_pontos);
-		
+		setContentView(R.layout.activity_tela_historico_compras);
+
 		ArrayList<Produto> listaHistorico=new ArrayList<Produto>();
 		bd.Banco banco=new bd.Banco(this);
-		listaHistorico=banco.retorneListaHistorico(Socio.getSocioLogado(), "Pontos");
+		listaHistorico=banco.retorneListaHistorico(Socio.getSocioLogado());
 		ArrayAdapter ad = new HistoricoPontosAdapter(this, R.layout.item_lista_produtos, listaHistorico);
-	    ListView lv = (ListView) findViewById(R.id.lvHistorico);
+	    ListView lv = (ListView) findViewById(R.id.lvHistoricoPontos);
 	    lv.setAdapter(ad);
 		
-
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.tela_historico_pontos, menu);
+		getMenuInflater().inflate(R.menu.tela_historico_compras, menu);
 		return true;
 	}
 
@@ -55,6 +53,5 @@ public class TelaHistoricoPontos extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
 
 }

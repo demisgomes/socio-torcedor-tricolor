@@ -3,6 +3,7 @@ package com.example.sociotorcedortricolor;
 import java.util.Calendar;
 import java.util.Date;
 
+import dominio.Socio;
 import bd.Banco;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -66,6 +67,9 @@ public class TelaLogin extends Activity implements OnClickListener {
 		banco.criarBanco();
 		if(banco.retorneProduto("G7R4-T9Y0")==null){
 			banco.populeBanco();
+			Socio socio=new Socio("Demis", "d@", "12345", "12345", "111", "111", "Ouro", "Masculino", 0, 0);
+			banco.cadastrarSocio(socio);
+			banco.updatePontosSocio(socio, 3000);
 		}
 		
 		//banco.inserirProdutos();
