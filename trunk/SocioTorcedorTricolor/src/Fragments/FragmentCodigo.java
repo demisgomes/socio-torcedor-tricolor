@@ -1,5 +1,9 @@
 package Fragments;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import negocio.CalculoPontos;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -45,12 +49,14 @@ public class FragmentCodigo extends Fragment implements OnClickListener {
 			
 			Banco banco=new Banco(getActivity());
 			String codigo=txtFCodigo.getText().toString();
-			System.out.println(codigo + " Código");
-			Produto p=banco.retorneProduto(codigo);
+			Produto p=banco.retorneProduto(codigo, 1);
+			Date date=new Date();
+			DateFormat formatar= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			String data=formatar.format(date);
 			if(p!=null){
 				CalculoPontos calculo =new CalculoPontos(getActivity(), Socio.getSocioLogado(), p.getPreco());
 				banco.updatePontosSocio(Socio.getSocioLogado(), calculo.getPontos());
-				banco.deletarProduto(p);
+				banco.inserirCompraHistorico(p.getNomeProduto(), 1, Socio.getSocioLogado(), data);
 				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 				builder.setMessage(" Parabéns! Você ganhou "+calculo.getPontos()+" pontos! Agora você possui "+Socio.getSocioLogado().getPontos()+"pontos")
 				       .setTitle("Parabéns!");

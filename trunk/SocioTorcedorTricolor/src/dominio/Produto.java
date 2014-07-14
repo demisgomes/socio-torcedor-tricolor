@@ -8,6 +8,20 @@ public class Produto {
 	private float preco;
 	private int pontos;
 	private static ArrayList<Produto> listaProdutosSeparados;
+	private String dataCompra;
+	public String getDataCompra() {
+		return dataCompra;
+	}
+	public void setDataCompra(String dataCompra) {
+		this.dataCompra = dataCompra;
+	}
+	public int getPontosAdquiridos() {
+		return pontosAdquiridos;
+	}
+	public void setPontosAdquiridos(int pontosAdquiridos) {
+		this.pontosAdquiridos = pontosAdquiridos;
+	}
+	private int pontosAdquiridos;
 	
 	public String getCodigo() {
 		return codigo;

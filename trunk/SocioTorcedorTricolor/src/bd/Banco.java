@@ -1,5 +1,7 @@
 package bd;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -46,7 +48,7 @@ public class Banco {
 				//TABELA DE EVENTOS (tabelaEventos)
 				String sqlEvento = "CREATE TABLE IF NOT EXISTS "+tabelaProdutos+" (_id INTEGER PRIMARY KEY, codigo TEXT, nome TEXT, preco FLOAT, pontos INTEGER, adquirido INTEGER)";
 				db.execSQL(sqlEvento);
-				String sqlPontosUsuario = "CREATE TABLE IF NOT EXISTS "+tabelaPontosUsuario+" (_id INTEGER PRIMARY KEY, idProduto INTEGER, idUsuario INTEGER, pontosAdquiridos INTEGER, dataCompra DATE)";
+				String sqlPontosUsuario = "CREATE TABLE IF NOT EXISTS "+tabelaPontosUsuario+" (_id INTEGER PRIMARY KEY, idProduto INTEGER, idUsuario INTEGER, pontosAdquiridos INTEGER, dataCompra TEXT)";
 				db.execSQL(sqlPontosUsuario);
 		}
 
@@ -173,6 +175,47 @@ public class Banco {
 			return null;
 		}
 		
+	}
+	
+	public Produto retorneProduto(int id, String semAbrirEFechar){
+		try {
+			Cursor cursor2;
+			openBd();
+			String sql="SELECT * FROM tabelaProdutos WHERE _id LIKE '"+id+"'";
+			cursor2=bancoDados.rawQuery(sql, null);
+			cursor2.moveToFirst();
+			System.out.println(cursor2.getCount());
+			System.out.println(cursor2.getString(cursor2.getColumnIndex("nome")));
+			Produto p=new Produto(cursor2.getString(cursor2.getColumnIndex("nome")), cursor2.getString(cursor2.getColumnIndex("codigo")), cursor2.getFloat(cursor2.getColumnIndex("preco")), cursor2.getInt(cursor2.getColumnIndex("pontos")));
+			return p;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	//retornar se o produto não for adquirido
+	public Produto retorneProduto(String codigo, int adquirido){
+		try {
+			Cursor cursor2;
+			openBd();
+			String sql="SELECT * FROM tabelaProdutos WHERE codigo LIKE '"+codigo+"' AND adquirido = '0'";
+			cursor2=bancoDados.rawQuery(sql, null);
+			cursor2.moveToFirst();
+			Produto p=new Produto(cursor2.getString(cursor2.getColumnIndex("nome")), cursor2.getString(cursor2.getColumnIndex("codigo")), cursor2.getFloat(cursor2.getColumnIndex("preco")), cursor2.getInt(cursor2.getColumnIndex("pontos")));
+			return p;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			closeBd();
+		}
 	}
 	
 	public void cadastrarSocio(Socio socio){
@@ -385,6 +428,36 @@ public class Banco {
 		}
 	}
 	
+	public ArrayList <Produto> retorneListaHistorico(Socio socio){
+		try {
+			Cursor cursor;
+			openBd();
+			String sql="SELECT idProduto, pontosAdquiridos, dataCompra FROM tabelaPontosUsuario WHERE idUsuario = '"+usuarioGetId(Socio.getSocioLogado().getEmail())+"'";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			ArrayList<Produto> listaHistorico=new ArrayList<Produto>();
+			for(int i=0;i<cursor.getCount();i++){
+				//Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getInt(cursor.getColumnIndex("pontos")));
+				Produto p=retorneProduto(cursor.getInt(cursor.getColumnIndex("idProduto")), "");
+				p.setDataCompra(cursor.getString(cursor.getColumnIndex("dataCompra")));
+				p.setPontosAdquiridos(cursor.getInt(cursor.getColumnIndex("pontosAdquiridos")));
+				listaHistorico.add(p);
+				if(i!=cursor.getCount()-1){
+					cursor.moveToNext();
+				}	
+			}
+			
+			return listaHistorico;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
 	public int getCountProduto(String nomeProduto){
 		try {
 			Cursor cursor;
@@ -404,7 +477,7 @@ public class Banco {
 		}
 	}
 	
-	public void inserirCompraHistorico(String nomeProduto, int qtd, Socio socio, Date data){
+	public void inserirCompraHistorico(String nomeProduto, int qtd, Socio socio, String data){
 		try {
 			openBd();
 			Cursor cursor;
@@ -427,6 +500,58 @@ public class Banco {
 					updatePontosSocio(Socio.getSocioLogado(), p.getPontos()*qtd, "");
 				}
 			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception 
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+		
+		
+	}
+	
+	public int retorneIdProduto(Produto produto){
+		try {
+			Cursor cursor;
+			openBd();
+			String sql="SELECT _id FROM tabelaProdutos WHERE codigo LIKE '"+produto.getCodigo()+"' AND adquirido <> 1";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			
+			return cursor.getInt(0);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return 0;
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public int retorneIdProduto(Produto produto, String semAbrirEFechar){
+		try {
+			Cursor cursor;
+			String sql="SELECT _id FROM tabelaProdutos WHERE codigo LIKE '"+produto.getCodigo()+"' AND adquirido <> 1";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			
+			return cursor.getInt(0);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	public void inserirCompraHistorico(Produto produto, Socio socio, String data, int pontos){
+		try {
+			openBd();
+			String update= "UPDATE "+tabelaProdutos+" SET adquirido='1' WHERE codigo LIKE '"+produto.getCodigo()+"'";
+			bancoDados.execSQL(update);
+			String inserePontosUsuario="INSERT INTO "+tabelaPontosUsuario+"(idProduto, idUsuario, pontosAdquiridos, dataCompra) VALUES ('"+retorneIdProduto(produto)+"', '"+usuarioGetId(socio.getEmail())+"', '"+pontos+"', '"+data+"')";
+			bancoDados.execSQL(inserePontosUsuario);
 			
 		} catch (Exception e) {
 			// TODO: handle exception 
