@@ -1,5 +1,7 @@
 package Fragments;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,6 +20,7 @@ import negocio.CustomAdapter;
 import bd.Banco;
 
 import com.example.sociotorcedortricolor.R;
+import com.example.sociotorcedortricolor.TelaInicial;
 
 import dominio.Produto;
 import dominio.Socio;
@@ -25,6 +28,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,12 +121,17 @@ public class FragmentLoja extends Fragment {
 							 mensagem="Compra efetuada com sucesso!";
 							Banco banco=new Banco(getActivity());
 							Date date=new Date();
-							banco.inserirCompraHistorico(Produto.getListaProdutosSeparados().get(position).getNomeProduto(), qtdDesejada, Socio.getSocioLogado(), date);
+							DateFormat formatar= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+							String data=formatar.format(date);
+							banco.inserirCompraHistorico(Produto.getListaProdutosSeparados().get(position).getNomeProduto(), qtdDesejada, Socio.getSocioLogado(), data);
 							Banco banco2=new Banco (getActivity());
 							banco2.updatePontosSocio(Socio.getSocioLogado(), -(qtdDesejada*Produto.getListaProdutosSeparados().get(position).getPontos()));
 							Banco banco3= new Banco(getActivity());
 							CalculoPontos calculo=new CalculoPontos(null, Socio.getSocioLogado(), Produto.getListaProdutosSeparados().get(position).getPreco());
 							banco3.updatePontosSocio(Socio.getSocioLogado(), (calculo.getPontos()*qtdDesejada));
+							
+							Intent intent=new Intent(getActivity(), TelaInicial.class);
+							startActivity(intent);
 						}
 						else{
 							mensagem="Você não tem pontos suficientes";

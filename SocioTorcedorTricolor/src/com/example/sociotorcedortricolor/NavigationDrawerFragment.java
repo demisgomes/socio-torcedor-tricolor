@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,7 +31,7 @@ import android.widget.Toast;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends Fragment implements OnClickListener{
 
     /**
      * Remember the position of the selected item.
@@ -99,6 +101,7 @@ public class NavigationDrawerFragment extends Fragment {
 		tvEmail= (TextView) rootView.findViewById(R.id.tvEmail);
 		tvPontos= (TextView) rootView.findViewById(R.id.tvPontos);
 		btnHistorico= (Button) rootView.findViewById(R.id.btnHistorico);
+		btnHistorico.setOnClickListener(this);
 		
 		Socio socio= Socio.getSocioLogado();
 		
@@ -299,4 +302,13 @@ public class NavigationDrawerFragment extends Fragment {
          */
         void onNavigationDrawerItemSelected(int position);
     }
+
+	@Override
+	public void onClick(View v) {
+		
+		if(v.getId()==R.id.btnHistorico){
+			Intent intent=new Intent(getActivity(),TelaHistoricoPontos.class);
+			startActivity(intent);
+		}
+	}
 }

@@ -23,5 +23,6 @@
     <string name="title_activity_tela_cadastro">TelaCadastro</string>
     <string name="title_activity_tela_boleto">TelaBoleto</string>
     <string name="title_activity_tela_abas">TelaAbas</string>
+    <string name="title_activity_tela_historico_pontos">TelaHistoricoPontos</string>
 
 </resources>
