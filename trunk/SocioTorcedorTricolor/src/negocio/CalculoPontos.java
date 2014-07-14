@@ -21,6 +21,24 @@ public class CalculoPontos {
 		}
 		
 	}
+	
+	public CalculoPontos(Socio socio, float preco){
+		
+		if(socio.getTipoSocio().equals("Master")){
+			pontos=(int)(preco*3.2);
+		}
+		if(socio.getTipoSocio().equals("Ouro")){
+			pontos=(int)(preco*2.9);
+		}
+		if(socio.getTipoSocio().equals("Prata")){
+			pontos=(int)(preco*2.6);
+		}
+		if(socio.getTipoSocio().equals("Patrimonial")){
+			pontos=(int)(preco*2.3);
+		}
+		
+	}
+	
 	public int getPontos() {
 		return pontos;
 	}

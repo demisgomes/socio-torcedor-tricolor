@@ -62,7 +62,7 @@ public class NavigationDrawerFragment extends Fragment implements OnClickListene
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
     private TextView tvNomePerfil,tvTipoSocio,tvEmail, tvPontos;
-	private Button btnHistorico;
+	private Button btnHistorico, btnHistoricoPontos;
     public NavigationDrawerFragment() {
     }
 
@@ -102,7 +102,8 @@ public class NavigationDrawerFragment extends Fragment implements OnClickListene
 		tvPontos= (TextView) rootView.findViewById(R.id.tvPontos);
 		btnHistorico= (Button) rootView.findViewById(R.id.btnHistorico);
 		btnHistorico.setOnClickListener(this);
-		
+		btnHistoricoPontos= (Button) rootView.findViewById(R.id.btnHistoricoPontos);
+		btnHistoricoPontos.setOnClickListener(this);
 		Socio socio= Socio.getSocioLogado();
 		
 		tvNomePerfil.setText(socio.getNome());
@@ -307,6 +308,11 @@ public class NavigationDrawerFragment extends Fragment implements OnClickListene
 	public void onClick(View v) {
 		
 		if(v.getId()==R.id.btnHistorico){
+			Intent intent=new Intent(getActivity(),TelaHistoricoCompras.class);
+			startActivity(intent);
+		}
+		
+		if(v.getId()==R.id.btnHistoricoPontos){
 			Intent intent=new Intent(getActivity(),TelaHistoricoPontos.class);
 			startActivity(intent);
 		}
