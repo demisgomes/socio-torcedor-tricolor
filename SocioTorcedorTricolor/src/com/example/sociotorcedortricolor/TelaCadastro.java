@@ -166,7 +166,7 @@ public class TelaCadastro extends Activity {
 					       .setTitle("Editado");
 					AlertDialog dialog = builder.create();
 					dialog.show();
-					
+					 
 					
 					Intent intent=new Intent(getActivity(), TelaLogin.class);
 					startActivity(intent);
