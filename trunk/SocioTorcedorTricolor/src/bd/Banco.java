@@ -248,6 +248,23 @@ public class Banco {
 		}
 	}
 	
+	public void excluirSocio(int id){
+		try{
+			openBd();
+			String update="UPDATE "+tabelaSocios+" SET nome='', dataNascimento='', email='', senha='', sexo='', telefone='' WHERE _id = '"+id+"'";
+			bancoDados.execSQL(update);	
+			
+			Socio.setSocioLogado(null);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	
 	public boolean validarLogin(String email, String senha){
 		try {
 			openBd();

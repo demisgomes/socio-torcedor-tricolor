@@ -1,12 +1,15 @@
 package com.example.sociotorcedortricolor;
 
+import bd.Banco;
 import dominio.Socio;
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -325,6 +328,33 @@ public class NavigationDrawerFragment extends Fragment implements OnClickListene
 			Intent intent=new Intent(getActivity(),TelaCadastro.class);
 			TelaCadastro.setEditar(true);
 			startActivity(intent);
+		}
+		if(v.getId()==R.id.btnExcluir){
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if(which==dialog.BUTTON_POSITIVE){
+						Banco banco=new Banco(getActivity());
+						banco.excluirSocio(banco.usuarioGetId(Socio.getSocioLogado().getEmail()));
+						
+						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+						builder.setMessage("Cadastro Excluído com Sucesso")
+						       .setTitle("Editado");
+						AlertDialog dialog2 = builder.create();
+						dialog2.show();
+						
+						Intent intent=new Intent(getActivity(),TelaInicial.class);
+						startActivity(intent);
+					}
+					
+				}
+			};
+			builder.setMessage("Desejas excluir seu cadastro?")
+			       .setTitle("Excluir").setPositiveButton("Sim", listener).setNegativeButton("Não", listener);
+			AlertDialog dialog = builder.create();
+			dialog.show();
 		}
 	}
 }
