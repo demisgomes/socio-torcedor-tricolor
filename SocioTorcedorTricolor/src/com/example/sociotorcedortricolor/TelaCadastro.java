@@ -24,7 +24,7 @@ import android.os.Build;
 public class TelaCadastro extends Activity {
 	
 	
-
+	private static boolean editar;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,6 +54,14 @@ public class TelaCadastro extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	public static boolean isEditar() {
+		return editar;
+	}
+
+	public static void setEditar(boolean editar) {
+		TelaCadastro.editar = editar;
 	}
 
 	/**
@@ -97,6 +105,37 @@ public class TelaCadastro extends Activity {
 			btnConfirmar= (Button) rootView.findViewById(R.id.btnConfirmar);
 			btnConfirmar.setOnClickListener(this);
 			
+			
+			if(TelaCadastro.isEditar()){
+				etNome.setText(Socio.getSocioLogado().getNome());
+				etEmail.setText(Socio.getSocioLogado().getEmail());
+				etSenha.setText(Socio.getSocioLogado().getSenha());
+				etCPF.setText(Socio.getSocioLogado().getCpf());
+				etTelefone.setText(Socio.getSocioLogado().getTelefone());
+				
+				etCPF.setEnabled(false);
+				
+				int selection=0;
+				if(Socio.getSocioLogado().getTipoSocio().equals("Master")){
+					selection=0;
+					
+				}
+				if(Socio.getSocioLogado().getTipoSocio().equals("Ouro")){
+					selection=1;
+					
+				}
+				if(Socio.getSocioLogado().getTipoSocio().equals("Prata")){
+					selection=2;
+					
+				}
+				if(Socio.getSocioLogado().getTipoSocio().equals("Patrimonial")){
+					selection=3;
+					
+				}
+				spTipoSocio.setSelection(selection);
+				spTipoSocio.setEnabled(false);
+			}
+			
 			return rootView;
 		}
 
@@ -116,18 +155,36 @@ public class TelaCadastro extends Activity {
 				tipoSocio=spTipoSocio.getSelectedItem().toString();
 				sexo=spSexo.getSelectedItem().toString();
 				
-				Socio socio=new Socio(nome, email, senha, confSenha, cpf, telefone, tipoSocio, sexo,0,0);
-				Banco banco=new Banco(getActivity());
-				banco.cadastrarSocio(socio);
+
+				if(TelaCadastro.isEditar()){
+					Socio socio=new Socio(nome, email, senha, confSenha, cpf, telefone, tipoSocio, sexo,0,0);
+					Banco banco=new Banco(getActivity());
+					System.out.println(Socio.getSocioLogado().getEmail());
+					banco.editarSocio(socio, banco.usuarioGetId(Socio.getSocioLogado().getEmail()));
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setMessage("Cadastro Editado com Sucesso")
+					       .setTitle("Editado");
+					AlertDialog dialog = builder.create();
+					dialog.show();
+					
+					
+					Intent intent=new Intent(getActivity(), TelaLogin.class);
+					startActivity(intent);
+				}
 				
-				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-				builder.setMessage(" Parabéns! Você se associou!")
-				       .setTitle("Parabéns");
-				AlertDialog dialog = builder.create();
-				dialog.show();
-				
-				Intent intent=new Intent(getActivity(), TelaLogin.class);
-				startActivity(intent);
+				else
+				{
+					Socio socio=new Socio(nome, email, senha, confSenha, cpf, telefone, tipoSocio, sexo,0,0);
+					Banco banco=new Banco(getActivity());
+					banco.cadastrarSocio(socio);
+					
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setMessage(" Parabéns! Você se associou!")
+					       .setTitle("Parabéns");
+					AlertDialog dialog = builder.create();
+					dialog.show();
+
+				}
 			}
 			
 		}

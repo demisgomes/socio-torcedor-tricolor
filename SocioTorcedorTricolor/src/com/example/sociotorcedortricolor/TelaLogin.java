@@ -1,8 +1,6 @@
 package com.example.sociotorcedortricolor;
 
-import java.util.Calendar;
 import java.util.Date;
-
 import dominio.Socio;
 import bd.Banco;
 import android.animation.Animator;
@@ -275,6 +273,7 @@ public class TelaLogin extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		if(v.getId()==R.id.btnCadastro){
 			Intent intent=new Intent(this, TelaCadastro.class);
+			TelaCadastro.setEditar(false);
 			startActivity(intent);
 		}
 		
