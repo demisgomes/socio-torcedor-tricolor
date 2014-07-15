@@ -232,6 +232,22 @@ public class Banco {
 		}
 	}
 	
+	public void editarSocio(Socio socio, int id){
+		try{
+			openBd();
+			String update="UPDATE "+tabelaSocios+" SET nome='"+socio.getNome()+"', dataNascimento='26/11/2005', email='"+socio.getEmail()+"', senha='"+socio.getSenha()+"', sexo='"+socio.getSexo()+"', telefone='"+socio.getTelefone()+"' WHERE _id = '"+id+"'";
+			bancoDados.execSQL(update);	
+			
+			Socio.setSocioLogado(socio);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
 	public boolean validarLogin(String email, String senha){
 		try {
 			openBd();
@@ -314,6 +330,20 @@ public class Banco {
 		}
 		finally{
 			//closeBd();
+		}
+	}
+	
+	public int usuarioGetId(String email, String semAbrirOuFechar){
+		try {
+			Cursor cursor2;
+			String sql="SELECT * FROM tabelaSocios WHERE email LIKE '"+email+"'";
+			cursor2=bancoDados.rawQuery(sql, null);
+			cursor2.moveToFirst();
+			return cursor2.getInt(cursor2.getColumnIndex("_id"));
+		} catch (Exception e) {
+			// TODO: handle exception 
+			e.printStackTrace();
+			return 0;
 		}
 	}
 	

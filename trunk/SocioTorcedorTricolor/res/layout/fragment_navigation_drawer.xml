@@ -10,27 +10,6 @@
     tools:ignore="MergeRootFrame" >
 
     <TextView
-        android:id="@+id/tvNomePerfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="49dp"
-        android:layout_marginTop="50dp"
-        android:text="Nome"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/tvTipoSocio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvNomePerfil"
-        android:layout_below="@+id/tvNomePerfil"
-        android:layout_marginTop="29dp"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
         android:id="@+id/tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,33 +20,69 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
+        android:id="@+id/tvNomePerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="Nome"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tvTipoSocio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvNomePerfil"
+        android:layout_marginTop="30dp"
+        android:layout_toLeftOf="@+id/tvNomePerfil"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
         android:id="@+id/tvPontos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvEmail"
-        android:layout_below="@+id/tvEmail"
-        android:layout_marginTop="46dp"
+        android:layout_above="@+id/tvEmail"
+        android:layout_toRightOf="@+id/tvNomePerfil"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/btnHistorico"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="64dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:text="Histórico de Compras" />
 
     <Button
         android:id="@+id/btnHistoricoPontos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnHistorico"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/btnHistorico"
-        android:layout_marginBottom="14dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btnHistorico"
+        android:layout_marginTop="24dp"
         android:text="Histórico de Pontos" />
+
+    <Button
+        android:id="@+id/btnEditar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/tvEmail"
+        android:layout_below="@+id/btnHistoricoPontos"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/editar" />
+
+    <Button
+        android:id="@+id/btnExcluir"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/btnEditar"
+        android:layout_toRightOf="@+id/btnHistoricoPontos"
+        android:background="@drawable/excluir" />
 
 </RelativeLayout>
 
