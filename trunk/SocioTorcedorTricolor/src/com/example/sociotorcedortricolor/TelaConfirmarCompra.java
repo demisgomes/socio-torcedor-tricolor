@@ -1,7 +1,17 @@
 package com.example.sociotorcedortricolor;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import negocio.CalculoPontos;
 import bd.CartaoDAO;
+import bd.MensalidadesDAO;
+import bd.SocioDAO;
 import dominio.Cartao;
+import dominio.Mensalidade;
+import dominio.Socio;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -23,7 +33,7 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 	EditText etNumeroCartao, etCodSeguranca, etNomeTitular, etCPFTitular, etDataVencimento;
 	String nomeTitular, numeroCartao, codSeguranca, cpfTitular, dataVencimento;
 	Button btnConfirmarCompra;
-	float preco;
+	int posicaoMensalidade;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,7 +52,7 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 		btnConfirmarCompra.setOnClickListener(this);
 		
 		Intent intent = getIntent();
-	    preco = intent.getFloatExtra("precoMensalidade", 0);
+	    posicaoMensalidade = intent.getIntExtra("posicao", 0);
 		
 		
 	}
@@ -80,17 +90,59 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 			CartaoDAO cDAO=new CartaoDAO(this);
 			Cartao cartaoValidado= cDAO.validarCartao(cartao);
 			
-			if(cartaoValidado!=null && cartaoValidado.getLimite()>preco){
-				cartaoValidado.setLimite(cartaoValidado.getLimite()-preco);
-				//cDAO.updateLimite()
+			Mensalidade mensalidade=Mensalidade.getListaMensalidades().get(posicaoMensalidade);
+			
+			if(cartaoValidado!=null && cartaoValidado.getLimite()>mensalidade.getPreco()){
 				
+				Date data= new Date();
+				DateFormat formato=new SimpleDateFormat("dd/MM/yyyy");
+				Date dataComparada=null;
+				
+				try {
+					dataComparada = formato.parse(mensalidade.getDataVencimento());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				System.out.println(data.after(dataComparada));
+				
+				cartaoValidado.setLimite(cartaoValidado.getLimite()-mensalidade.getPreco());
+				
+				cDAO.updateLimite(cartaoValidado, cartaoValidado.getLimite());
+				
+				MensalidadesDAO mDAO=new MensalidadesDAO(this);
+				int emDia;
+				if(data.after(dataComparada)){
+					emDia=2;
+				}
+				else{
+					emDia=1;
+					SocioDAO sDAO= new SocioDAO(this);
+					CalculoPontos calculo= new CalculoPontos(Socio.getSocioLogado(), mensalidade);
+					sDAO.updatePontosSocio(Socio.getSocioLogado(), calculo.getPontos());
+					mDAO.updateMensalidade(mensalidade, calculo.getPontos());
+					
+				}
+				
+				mensalidade.setEmDia(emDia);
+				mensalidade.setDataPagamento(formato.format(data));
+				
+				mDAO.updateMensalidade(mensalidade);
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			    builder.setMessage("Pagamento de Boleto Aprovado")
-			       .setTitle("Validado");
+			    builder.setMessage("Pagamento de mensalidade Aprovado")
+			       .setTitle("Validado").setPositiveButton("OK", null);
 			    builder.create().show();
 			    
 			    Intent intent = new Intent(this, TelaInicial.class);
 			    startActivity(intent);
+			}
+			
+			else{
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			    builder.setMessage("Pagamento recusado")
+			       .setTitle("Recusado").setPositiveButton("OK", null);
+			    builder.create().show();
 			}
 		}
 		

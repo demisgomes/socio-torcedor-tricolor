@@ -4,6 +4,7 @@ package bd;
 import java.util.ArrayList;
 import java.util.Date;
 
+import dominio.Cartao;
 import dominio.Mensalidade;
 import dominio.Produto;
 import dominio.Socio;
@@ -111,7 +112,7 @@ public class MensalidadesDAO {
 			if(socio.getTipoSocio().equals("Patrimonial")){
 				preco=20;
 			}
-			String sql= "INSERT INTO tabelaMensalidades(preco, dataVencimento, emDia, idSocio) VALUES ('"+preco+"','05/"+mes+"/2014','0','"+banco.usuarioGetId(Socio.getSocioLogado().getEmail())+"')";	
+			String sql= "INSERT INTO tabelaMensalidades(preco, dataVencimento, emDia, idSocio, dataPagamento, pontosAdquiridos) VALUES ('"+preco+"','05/"+mes+"/2014','0','"+banco.usuarioGetId(Socio.getSocioLogado().getEmail())+"', '', '0')";	
 			bancoDados.execSQL(sql);
 		}
 		catch(Exception e){
@@ -122,7 +123,7 @@ public class MensalidadesDAO {
 		}
 	}
 	
-	public void inserirMensalidade(Socio socio, String mes, Banco banco, int pago){
+	public void inserirMensalidade(Socio socio, String mes, Banco banco, int pago, String dataPagamento){
 		try{
 			openBd();
 			
@@ -142,7 +143,38 @@ public class MensalidadesDAO {
 			if(socio.getTipoSocio().equals("Patrimonial")){
 				preco=20;
 			}
-			String sql= "INSERT INTO tabelaMensalidades(preco, dataVencimento, emDia, idSocio) VALUES ('"+preco+"','05/"+mes+"/2014','1','"+banco.usuarioGetId(socio.getEmail())+"')";	
+			String sql= "INSERT INTO tabelaMensalidades(preco, dataVencimento, emDia, idSocio, dataPagamento) VALUES ('"+preco+"','05/"+mes+"/2014','"+pago+"','"+banco.usuarioGetId(socio.getEmail())+"', '"+dataPagamento+"' )";	
+			bancoDados.execSQL(sql);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public void inserirMensalidade(Socio socio, String mes, Banco banco, int pago, String dataPagamento, int pontosAdquiridos){
+		try{
+			openBd();
+			
+			float preco = 0;
+			if(socio.getTipoSocio().equals("Master")){
+				preco=100;
+			}
+			
+			if(socio.getTipoSocio().equals("Ouro")){
+				preco=80;
+			}
+
+			if(socio.getTipoSocio().equals("Prata")){
+				preco=40;
+			}	
+
+			if(socio.getTipoSocio().equals("Patrimonial")){
+				preco=20;
+			}
+			String sql= "INSERT INTO tabelaMensalidades(preco, dataVencimento, emDia, idSocio, dataPagamento, pontosAdquiridos) VALUES ('"+preco+"','05/"+mes+"/2014','"+pago+"','"+banco.usuarioGetId(socio.getEmail())+"', '"+dataPagamento+"', '"+pontosAdquiridos+"' )";	
 			bancoDados.execSQL(sql);
 		}
 		catch(Exception e){
@@ -163,13 +195,15 @@ public class MensalidadesDAO {
 			cursor.moveToFirst();
 			for (int i = 0; i < cursor.getCount(); i++) {
 				Mensalidade m = new Mensalidade(cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getString(cursor.getColumnIndex("dataVencimento")), cursor.getInt(cursor.getColumnIndex("emDia")), cursor.getInt(cursor.getColumnIndex("_id")), socio);
+				m.setDataPagamento(cursor.getString(cursor.getColumnIndex("dataPagamento")));
+				m.setPontosAdquiridos(cursor.getInt(cursor.getColumnIndex("pontosAdquiridos")));
 				listaMensalidades.add(m);
 				
 				if(i!=cursor.getCount()-1){
 					cursor.moveToNext();
 				}	
 			}
-			
+			Mensalidade.setListaMensalidades(listaMensalidades);
 			return listaMensalidades;
 		}
 		catch(Exception e){
@@ -179,6 +213,40 @@ public class MensalidadesDAO {
 		finally{
 			closeBd();
 		}
+	}
+	
+	public void updateMensalidade(Mensalidade mensalidade){
+		try{
+			openBd();
+			
+			String update="UPDATE tabelaMensalidades SET emDia = '"+mensalidade.getEmDia()+"', dataPagamento = '"+mensalidade.getDataPagamento()+"' WHERE _id = '"+mensalidade.getIdUnico()+"'";
+			bancoDados.execSQL(update);
+				
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+		
+	}
+	
+	public void updateMensalidade(Mensalidade mensalidade, int pontos){
+		try{
+			openBd();
+			
+			String update="UPDATE tabelaMensalidades SET emDia = '"+mensalidade.getEmDia()+"', dataPagamento = '"+mensalidade.getDataPagamento()+"', pontosAdquiridos = '"+pontos+"' WHERE _id = '"+mensalidade.getIdUnico()+"'";
+			bancoDados.execSQL(update);
+				
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+		
 	}
 
 }

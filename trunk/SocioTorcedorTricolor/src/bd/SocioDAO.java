@@ -2,7 +2,9 @@ package bd;
 
 import java.util.ArrayList;
 
+import dominio.Socio;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import bd.Banco.BDhelper;
@@ -82,6 +84,79 @@ public class SocioDAO {
 	public void closeBd(){
 		bancoDados.close();
 		System.out.println(this+" "+"------------Closed Bd--------");
+	}
+	
+	public void updatePontosSocio(Socio socio, int pontos){
+		try{
+			openBd();
+			int novosPontos=socio.getPontos()+pontos;
+			//String update="UPDATE "+tabelaSocios+" SET nome='"+socio.getNome()+"', dataNascimento='26/11/2005', email='"+socio.getEmail()+"', senha='"+socio.getSenha()+"', sexo='"+socio.getSenha()+"', pontos='"+novosPontos+"', ranking='"+socio.getRanking()+"', tipoSocio='"+socio.getTipoSocio()+"', cpf='"+socio.getCpf()+"', telefone='"+socio.getTelefone()+"'";
+			String update= "UPDATE "+tabelaSocios+" SET pontos='"+novosPontos+"' WHERE _id LIKE '"+socio.getIdUnico()+"'";
+			bancoDados.execSQL(update);
+			validarLogin(socio.getEmail(), socio.getSenha(), "SemAbrirEFechar");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public int usuarioGetId(String email){
+		try {
+			openBd();
+			Cursor cursor;
+			String sql="SELECT * FROM tabelaSocios WHERE email LIKE '"+email+"'";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			return cursor.getInt(cursor.getColumnIndex("_id"));
+		} catch (Exception e) {
+			// TODO: handle exception 
+			e.printStackTrace();
+			return 0;
+		}
+		finally{
+			//closeBd();
+		}
+	}
+	
+	public boolean validarLogin(String email, String senha){
+		try {
+			openBd();
+			Cursor cursor;
+			String sql="SELECT * FROM tabelaSocios WHERE email LIKE '"+email+"' AND senha LIKE '"+senha+"'";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			Socio s=new Socio(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("email")), cursor.getString(cursor.getColumnIndex("senha")),cursor.getString(cursor.getColumnIndex("senha")), cursor.getString(cursor.getColumnIndex("cpf")), cursor.getString(cursor.getColumnIndex("telefone")),cursor.getString(cursor.getColumnIndex("tipoSocio")), cursor.getString(cursor.getColumnIndex("sexo")), cursor.getInt(cursor.getColumnIndex("pontos")), cursor.getInt(cursor.getColumnIndex("ranking")));
+			s.setIdUnico(cursor.getInt(cursor.getColumnIndex("_id")));
+			Socio.socioLogado=s;
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public boolean validarLogin(String email, String senha, String semAbrirEFechar){
+		try {
+			Cursor cursor;
+			String sql="SELECT * FROM tabelaSocios WHERE email LIKE '"+email+"' AND senha LIKE '"+senha+"'";
+			cursor=bancoDados.rawQuery(sql, null);
+			cursor.moveToFirst();
+			Socio s=new Socio(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("email")), cursor.getString(cursor.getColumnIndex("senha")),cursor.getString(cursor.getColumnIndex("senha")), cursor.getString(cursor.getColumnIndex("cpf")), cursor.getString(cursor.getColumnIndex("telefone")),cursor.getString(cursor.getColumnIndex("tipoSocio")), cursor.getString(cursor.getColumnIndex("sexo")), cursor.getInt(cursor.getColumnIndex("pontos")), cursor.getInt(cursor.getColumnIndex("ranking")));
+			s.setIdUnico(cursor.getInt(cursor.getColumnIndex("_id")));
+			Socio.socioLogado=s;
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
 

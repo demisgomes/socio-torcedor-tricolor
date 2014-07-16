@@ -52,7 +52,7 @@ public class TelaInicial extends Activity
             .setTabListener(this));
         actionBar.addTab(actionBar.newTab().setText("Código")
             .setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText("Boleto")
+        actionBar.addTab(actionBar.newTab().setText("Mensalidade")
             .setTabListener(this));
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)

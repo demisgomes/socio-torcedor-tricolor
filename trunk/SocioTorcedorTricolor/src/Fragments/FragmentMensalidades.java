@@ -8,6 +8,7 @@ import java.util.Date;
 
 import negocio.CustomAdapter;
 import negocio.MensalidadeAdapter;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,8 +47,8 @@ public class FragmentMensalidades extends Fragment implements OnClickListener{
 		final ArrayList<Mensalidade> listaMensalidade;
 		bd.MensalidadesDAO mDAO=new bd.MensalidadesDAO(getActivity());
 		listaMensalidade=mDAO.retorneListaMensalidadesSocio(Socio.getSocioLogado());
-
-		 ArrayAdapter ad = new MensalidadeAdapter(getActivity(), R.layout.item_lista_mensalidades, listaMensalidade);
+		
+		 ArrayAdapter ad = new MensalidadeAdapter(getActivity(), R.layout.item_lista_mensalidades, Mensalidade.getListaMensalidades());
 	     ListView lv = (ListView) rootView.findViewById(R.id.lvListaMensalidades);
 	     lv.setAdapter(ad);
 		
@@ -56,22 +57,31 @@ public class FragmentMensalidades extends Fragment implements OnClickListener{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Date data= new Date();
-				DateFormat formato=new SimpleDateFormat("dd/MM/yyyy");
-				Date dataComparada=null;
 				
-				Intent intent = new Intent(getActivity(), TelaConfirmarCompra.class);
-				intent.putExtra("precoMensalidade", listaMensalidade.get(position).getPreco());
-				startActivity(intent);
+				
+				if(Mensalidade.getListaMensalidades().get(position).getEmDia()==0){
+					Intent intent = new Intent(getActivity(), TelaConfirmarCompra.class);
+					intent.putExtra("posicao", position);
+					startActivity(intent);
 
-				try {
-					dataComparada = formato.parse(listaMensalidade.get(position).getDataVencimento());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 				
-				System.out.println(data.after(dataComparada));
+				if(Mensalidade.getListaMensalidades().get(position).getEmDia()==1){
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+				    builder.setMessage("Pagamento de mensalidade realizado em "+Mensalidade.getListaMensalidades().get(position).getDataPagamento()+", adquirindo  "+Mensalidade.getListaMensalidades().get(position).getPontosAdquiridos()+" pontos já que pagou em dia")
+				       .setTitle("Pagamento já efetuado").setPositiveButton("OK", null);
+				    builder.create().show();
+
+				}
+				
+				if(Mensalidade.getListaMensalidades().get(position).getEmDia()==2){
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+				    builder.setMessage("Pagamento de mensalidade realizado em "+Mensalidade.getListaMensalidades().get(position).getDataPagamento()+", adquirindo  "+Mensalidade.getListaMensalidades().get(position).getPontosAdquiridos()+" pontos já que pagou depois do vencimento")
+				       .setTitle("Pagamento já efetuado").setPositiveButton("OK", null);
+				    builder.create().show();
+				}
+				
+				
 				
 			}
 		});
