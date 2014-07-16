@@ -52,6 +52,7 @@ public class Banco {
 				String sqlCartoes = "CREATE TABLE IF NOT EXISTS "+tabelaCartoes+" (_id INTEGER PRIMARY KEY, numero TEXT, codSeguranca TEXT, titular TEXT, vencimento TEXT, limite FLOAT, cpfTitular TEXT)";
 				db.execSQL(sqlCartoes);
 				String sqlMensalidades = "CREATE TABLE IF NOT EXISTS "+tabelaMensalidades+" (_id INTEGER PRIMARY KEY, preco FLOAT, dataVencimento TEXT, idSocio INTEGER, emDia INTEGER)";
+				db.execSQL(sqlMensalidades);
 		}
 
 		

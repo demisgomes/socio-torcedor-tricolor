@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import dominio.Cartao;
 import dominio.Produto;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -120,6 +121,27 @@ public class CartaoDAO {
 		}
 		catch(Exception e){
 			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public Cartao validarCartao(Cartao cartao){
+		try{
+			openBd();
+			
+			String pesquisa="SELECT * FROM tabelaCartoes WHERE numero LIKE '"+cartao.getNumero()+"' AND codSeguranca LIKE'"+cartao.getCodSeguranca()+"' AND titular LIKE '"+cartao.getTitular()+"' AND vencimento LIKE '"+cartao.getVencimento()+"' AND cpfTitular LIKE '"+cartao.getCpfTitular()+"'";
+			Cursor cursor= bancoDados.rawQuery(pesquisa, null);
+			
+			cursor.moveToNext();
+			Cartao c= new Cartao(cursor.getString(cursor.getColumnIndex("numero")), cursor.getString(cursor.getColumnIndex("codSeguranca")), cursor.getString(cursor.getColumnIndex("titular")), cursor.getString(cursor.getColumnIndex("vencimento")), cursor.getFloat(cursor.getColumnIndex("limite")), cursor.getString(cursor.getColumnIndex("cpfTitular")), cursor.getInt(cursor.getColumnIndex("_id")));
+			return c;
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
 		}
 		finally{
 			closeBd();

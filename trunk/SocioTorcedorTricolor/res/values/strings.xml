@@ -25,5 +25,6 @@
     <string name="title_activity_tela_abas">TelaAbas</string>
     <string name="title_activity_tela_historico_pontos">TelaHistoricoPontos</string>
     <string name="title_activity_tela_historico_compras">TelaHistoricoCompras</string>
+    <string name="title_activity_tela_confirmar_compra">TelaConfirmarCompra</string>
 
 </resources>

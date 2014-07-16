@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.sociotorcedortricolor.TelaConfirmarCompra"
+    tools:ignore="MergeRootFrame" >
+
+    <TextView
+        android:id="@+id/tvConfirmarCompra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirmar Compra"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/etNumCartao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Núm. do Cartão"
+        android:inputType="number" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/etCodCartao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Núm. do Código do Cartão"
+        android:inputType="numberPassword" />
+
+    <EditText
+        android:id="@+id/etNomeTitular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Nome do Titular"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/etCPFtitular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="CPF do Titular"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/etDataVencimento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Data de Vencimento"
+        />
+
+    <Button
+        android:id="@+id/btnConfirmarCompra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirmar" />
+
+</LinearLayout>

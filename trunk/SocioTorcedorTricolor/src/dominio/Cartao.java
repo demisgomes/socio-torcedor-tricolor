@@ -74,5 +74,15 @@ public class Cartao {
 		this.limite = limite;
 		this.cpfTitular=cpfTitular;
 	}
+	
+	public Cartao(String numero, String codSeguranca, String titular,
+			String vencimento, String cpfTitular) {
+		super();
+		this.numero = numero;
+		this.codSeguranca = codSeguranca;
+		this.titular = titular;
+		this.vencimento = vencimento;
+		this.cpfTitular=cpfTitular;
+	}
 
 }

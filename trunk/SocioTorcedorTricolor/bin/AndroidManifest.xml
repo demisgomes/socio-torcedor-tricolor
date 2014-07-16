@@ -59,6 +59,10 @@
             android:name="com.example.sociotorcedortricolor.TelaHistoricoCompras"
             android:label="@string/title_activity_tela_historico_compras" >
         </activity>
+        <activity
+            android:name="com.example.sociotorcedortricolor.TelaConfirmarCompra"
+            android:label="@string/title_activity_tela_confirmar_compra" >
+        </activity>
     </application>
 
 </manifest>

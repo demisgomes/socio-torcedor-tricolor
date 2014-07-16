@@ -111,7 +111,7 @@ public class MensalidadesDAO {
 			if(socio.getTipoSocio().equals("Patrimonial")){
 				preco=20;
 			}
-			String sql= "INSERT INTO tabelaMensalidades(preco, dataVencimento, emDia, idSocio) VALUES ('"+preco+"','05/"+mes+"','0','"+banco.usuarioGetId(Socio.getSocioLogado().getEmail())+"')";	
+			String sql= "INSERT INTO tabelaMensalidades(preco, dataVencimento, emDia, idSocio) VALUES ('"+preco+"','05/"+mes+"/2014','0','"+banco.usuarioGetId(Socio.getSocioLogado().getEmail())+"')";	
 			bancoDados.execSQL(sql);
 		}
 		catch(Exception e){
@@ -142,7 +142,7 @@ public class MensalidadesDAO {
 			if(socio.getTipoSocio().equals("Patrimonial")){
 				preco=20;
 			}
-			String sql= "INSERT INTO tabelaMensalidades(preco, dataVencimento, emDia, idSocio) VALUES ('"+preco+"','05/"+mes+"','1','"+banco.usuarioGetId(socio.getEmail())+"')";	
+			String sql= "INSERT INTO tabelaMensalidades(preco, dataVencimento, emDia, idSocio) VALUES ('"+preco+"','05/"+mes+"/2014','1','"+banco.usuarioGetId(socio.getEmail())+"')";	
 			bancoDados.execSQL(sql);
 		}
 		catch(Exception e){
