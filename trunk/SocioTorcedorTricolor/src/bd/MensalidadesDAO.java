@@ -8,6 +8,7 @@ import dominio.Mensalidade;
 import dominio.Produto;
 import dominio.Socio;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -115,6 +116,65 @@ public class MensalidadesDAO {
 		}
 		catch(Exception e){
 			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public void inserirMensalidade(Socio socio, String mes, Banco banco, int pago){
+		try{
+			openBd();
+			
+			float preco = 0;
+			if(socio.getTipoSocio().equals("Master")){
+				preco=100;
+			}
+			
+			if(socio.getTipoSocio().equals("Ouro")){
+				preco=80;
+			}
+
+			if(socio.getTipoSocio().equals("Prata")){
+				preco=40;
+			}	
+
+			if(socio.getTipoSocio().equals("Patrimonial")){
+				preco=20;
+			}
+			String sql= "INSERT INTO tabelaMensalidades(preco, dataVencimento, emDia, idSocio) VALUES ('"+preco+"','05/"+mes+"','1','"+banco.usuarioGetId(socio.getEmail())+"')";	
+			bancoDados.execSQL(sql);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public ArrayList <Mensalidade> retorneListaMensalidadesSocio(Socio socio){
+		try{
+			openBd();
+			Cursor cursor;
+			ArrayList <Mensalidade> listaMensalidades=new ArrayList<Mensalidade>();
+			String mensalidade= "SELECT * FROM tabelaMensalidades WHERE idSocio = '"+socio.getIdUnico()+"'";
+			cursor= bancoDados.rawQuery(mensalidade, null);
+			cursor.moveToFirst();
+			for (int i = 0; i < cursor.getCount(); i++) {
+				Mensalidade m = new Mensalidade(cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getString(cursor.getColumnIndex("dataVencimento")), cursor.getInt(cursor.getColumnIndex("emDia")), cursor.getInt(cursor.getColumnIndex("_id")), socio);
+				listaMensalidades.add(m);
+				
+				if(i!=cursor.getCount()-1){
+					cursor.moveToNext();
+				}	
+			}
+			
+			return listaMensalidades;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
 		}
 		finally{
 			closeBd();
