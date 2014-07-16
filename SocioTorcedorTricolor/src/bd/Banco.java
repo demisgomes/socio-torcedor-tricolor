@@ -52,7 +52,6 @@ public class Banco {
 				String sqlCartoes = "CREATE TABLE IF NOT EXISTS "+tabelaCartoes+" (_id INTEGER PRIMARY KEY, numero TEXT, codSeguranca TEXT, titular TEXT, vencimento TEXT, limite FLOAT, cpfTitular TEXT)";
 				db.execSQL(sqlCartoes);
 				String sqlMensalidades = "CREATE TABLE IF NOT EXISTS "+tabelaMensalidades+" (_id INTEGER PRIMARY KEY, preco FLOAT, dataVencimento TEXT, idSocio INTEGER, emDia INTEGER)";
-				db.execSQL(sqlMensalidades);
 		}
 
 		
@@ -276,6 +275,7 @@ public class Banco {
 			cursor=bancoDados.rawQuery(sql, null);
 			cursor.moveToFirst();
 			Socio s=new Socio(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("email")), cursor.getString(cursor.getColumnIndex("senha")),cursor.getString(cursor.getColumnIndex("senha")), cursor.getString(cursor.getColumnIndex("cpf")), cursor.getString(cursor.getColumnIndex("telefone")),cursor.getString(cursor.getColumnIndex("tipoSocio")), cursor.getString(cursor.getColumnIndex("sexo")), cursor.getInt(cursor.getColumnIndex("pontos")), cursor.getInt(cursor.getColumnIndex("ranking")));
+			s.setIdUnico(cursor.getInt(cursor.getColumnIndex("_id")));
 			Socio.socioLogado=s;
 			return true;
 		} catch (Exception e) {
