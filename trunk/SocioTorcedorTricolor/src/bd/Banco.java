@@ -1,9 +1,6 @@
 package bd;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import negocio.CalculoPontos;
 import dominio.Produto;
@@ -19,6 +16,8 @@ public class Banco {
 	private final String tabelaProdutos="tabelaProdutos";
 	private final String tabelaSocios="tabelaSocios";
 	private final String tabelaPontosUsuario="tabelaPontosUsuario";
+	private final String tabelaCartoes="tabelaCartoes";
+	private final String tabelaMensalidades="tabelaMensalidades";
 	private static int versaoBD=1;
 	private BDhelper bdHelper;
 	private SQLiteDatabase bancoDados;
@@ -50,6 +49,10 @@ public class Banco {
 				db.execSQL(sqlEvento);
 				String sqlPontosUsuario = "CREATE TABLE IF NOT EXISTS "+tabelaPontosUsuario+" (_id INTEGER PRIMARY KEY, idProduto INTEGER, idUsuario INTEGER, pontosAdquiridos INTEGER, dataCompra TEXT, foiCodigo INTEGER)";
 				db.execSQL(sqlPontosUsuario);
+				String sqlCartoes = "CREATE TABLE IF NOT EXISTS "+tabelaCartoes+" (_id INTEGER PRIMARY KEY, numero TEXT, codSeguranca TEXT, titular TEXT, vencimento TEXT, limite FLOAT, cpfTitular TEXT)";
+				db.execSQL(sqlCartoes);
+				String sqlMensalidades = "CREATE TABLE IF NOT EXISTS "+tabelaMensalidades+" (_id INTEGER PRIMARY KEY, preco FLOAT, dataVencimento TEXT, idSocio INTEGER, emDia INTEGER)";
+				db.execSQL(sqlMensalidades);
 		}
 
 		
