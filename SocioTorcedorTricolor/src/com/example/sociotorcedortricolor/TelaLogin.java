@@ -77,6 +77,13 @@ public class TelaLogin extends Activity implements OnClickListener {
 			cDAO.populeCartoes();
 			mDAO.inserirMensalidade(socio, "08", banco);
 		}
+		/*MensalidadesDAO mDAO2 = new MensalidadesDAO(this);
+		MensalidadesDAO mDAO3 = new MensalidadesDAO(this);
+		Banco banco2=new Banco(this);
+		Banco banco3=new Banco(this);
+		mDAO2.inserirMensalidade(socio, "07", banco2, 1);
+		mDAO3.inserirMensalidade(socio, "06", banco3, 1);*/
+		//banco.inserirProdutos();
 		Date date=new Date();
 		System.out.println(date);
 		
