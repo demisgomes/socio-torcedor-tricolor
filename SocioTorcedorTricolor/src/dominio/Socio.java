@@ -3,7 +3,7 @@ package dominio;
 public class Socio {
 	
 	private String nome,email,senha,confSenha,cpf,telefone,tipoSocio,sexo;
-	private int pontos,ranking;
+	private int pontos,ranking, idUnico;
 
 	public String getNome() {
 		return nome;
@@ -107,6 +107,14 @@ public class Socio {
 
 	public void setRanking(int ranking) {
 		this.ranking = ranking;
+	}
+
+	public int getIdUnico() {
+		return idUnico;
+	}
+
+	public void setIdUnico(int idUnico) {
+		this.idUnico = idUnico;
 	}
 
 	public static Socio socioLogado;

@@ -1,8 +1,11 @@
 package com.example.sociotorcedortricolor;
 
 import java.util.Date;
+
 import dominio.Socio;
 import bd.Banco;
+import bd.CartaoDAO;
+import bd.MensalidadesDAO;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -63,11 +66,15 @@ public class TelaLogin extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_tela_login);
 		Banco banco=new Banco(this);
 		banco.criarBanco();
+		CartaoDAO cDAO = new CartaoDAO(this);
+		MensalidadesDAO mDAO = new MensalidadesDAO(this);
 		if(banco.retorneProduto("G7R4-T9Y0")==null){
 			banco.populeBanco();
 			Socio socio=new Socio("Demis", "d@", "12345", "12345", "111", "111", "Ouro", "Masculino", 0, 0);
 			banco.cadastrarSocio(socio);
 			banco.updatePontosSocio(socio, 3000);
+			cDAO.populeCartoes();
+			mDAO.inserirMensalidade(socio, "08", banco);
 		}
 		
 		//banco.inserirProdutos();

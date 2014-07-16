@@ -4,6 +4,7 @@ import dominio.Socio;
 import bd.Banco;
 import Fragments.FragmentCodigo;
 import Fragments.FragmentLoja;
+import Fragments.FragmentMensalidades;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.ActionBar;
@@ -189,13 +190,9 @@ public class TelaInicial extends Activity
 			fragment= new FragmentCodigo();
 		}
 			
-      //Fragment fragment = new PlaceholderFragment();
-      Bundle args = new Bundle();
-      if(tab.getPosition()==2){
-    	  args.putInt(PlaceholderFragment.ARG_SECTION_NUMBER,
-    	          tab.getPosition() + 1);
-    	  fragment.setArguments(args);
-      }
+		if(tab.getPosition()==2){
+    	  fragment= new FragmentMensalidades();
+		}
       
       
       getFragmentManager().beginTransaction()
