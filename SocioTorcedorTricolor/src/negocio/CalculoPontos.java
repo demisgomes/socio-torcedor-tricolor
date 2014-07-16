@@ -1,5 +1,6 @@
 package negocio;
 
+import dominio.Mensalidade;
 import dominio.Socio;
 import android.content.Context;
 
@@ -35,6 +36,23 @@ public class CalculoPontos {
 		}
 		if(socio.getTipoSocio().equals("Patrimonial")){
 			pontos=(int)(preco*2.3);
+		}
+		
+	}
+	
+	public CalculoPontos(Socio socio, Mensalidade mensalidade){
+		
+		if(socio.getTipoSocio().equals("Master")){
+			pontos=(int)(mensalidade.getPreco()*6);
+		}
+		if(socio.getTipoSocio().equals("Ouro")){
+			pontos=(int)(mensalidade.getPreco()*5.5);
+		}
+		if(socio.getTipoSocio().equals("Prata")){
+			pontos=(int)(mensalidade.getPreco()*5);
+		}
+		if(socio.getTipoSocio().equals("Patrimonial")){
+			pontos=(int)(mensalidade.getPreco()*4.5);
 		}
 		
 	}

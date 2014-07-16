@@ -147,4 +147,21 @@ public class CartaoDAO {
 			closeBd();
 		}
 	}
+	
+	public void updateLimite(Cartao cartao, float novoLimite){
+		try{
+			openBd();
+			
+			String pesquisa="UPDATE tabelaCartoes SET limite = '"+novoLimite+"' WHERE _id = '"+cartao.getIdUnico()+"'";
+			bancoDados.execSQL(pesquisa);
+				
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+		
+	}
 }

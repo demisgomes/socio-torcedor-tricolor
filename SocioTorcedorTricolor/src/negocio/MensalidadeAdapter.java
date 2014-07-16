@@ -54,6 +54,8 @@ public class MensalidadeAdapter extends ArrayAdapter<Mensalidade> {
         TextView mes = (TextView) convertView.findViewById(R.id.mes);
         TextView preco = (TextView) convertView.findViewById(R.id.preco);
         TextView data = (TextView) convertView.findViewById(R.id.dataVencimento);
+
+        TextView dataPagamento = (TextView) convertView.findViewById(R.id.dataPagamento);
         
         Mensalidade mensalidade=getItem(position);
         
@@ -61,7 +63,11 @@ public class MensalidadeAdapter extends ArrayAdapter<Mensalidade> {
         if(mensalidade.getEmDia()==1){
         	image.setBackgroundResource(R.drawable.sucesso);
         }
+        if(mensalidade.getEmDia()==2){
+        	image.setBackgroundResource(R.drawable.sucesso_atrasado);
+        }
         String mes1= mensalidade.getDataVencimento().substring(3, 5);
+        String ano= mensalidade.getDataVencimento().substring(6, 10);
         String mesFinal="";
         if(mes1.equals("12")){
         	mesFinal="Dezembro";
@@ -100,9 +106,17 @@ public class MensalidadeAdapter extends ArrayAdapter<Mensalidade> {
         if(mes1.equals("11")){
         	mesFinal="Novembro";
         }
-        mes.setText(mesFinal);
+        mes.setText(mesFinal+"/"+ano);
         preco.setText("R$ "+mensalidade.getPreco()+"0" );
-        data.setText(mensalidade.getDataVencimento());
+        data.setText("Venc. "+ mensalidade.getDataVencimento());
+        
+        if(mensalidade.getDataPagamento().equals("")){
+        	dataPagamento.setText("Mensalidade não paga");
+        }
+        
+        else{
+        	dataPagamento.setText("Pag: "+mensalidade.getDataPagamento());
+        }
         return convertView;
     }
  

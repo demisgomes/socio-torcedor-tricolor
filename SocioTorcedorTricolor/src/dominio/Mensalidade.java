@@ -1,5 +1,7 @@
 package dominio;
 
+import java.util.ArrayList;
+
 public class Mensalidade {
 	
 	private float preco;
@@ -7,6 +9,10 @@ public class Mensalidade {
 	private int emDia;
 	private int idUnico;
 	private Socio socio;
+	private String dataPagamento;
+	private int pontosAdquiridos;
+	
+	private static ArrayList<Mensalidade> listaMensalidades;
 	
 	public Mensalidade(float preco, String dataVencimento, int emDia,
 			int idUnico, Socio socio) {
@@ -60,6 +66,30 @@ public class Mensalidade {
 	}
 	public void setEmDia(int emDia) {
 		this.emDia = emDia;
+	}
+	public static ArrayList<Mensalidade> getListaMensalidades() {
+		return listaMensalidades;
+	}
+	public static void setListaMensalidades(ArrayList<Mensalidade> listaMensalidades) {
+		Mensalidade.listaMensalidades = listaMensalidades;
+	}
+	public String getDataPagamento() {
+		return dataPagamento;
+	}
+	public void setDataPagamento(String dataPagamento) {
+		this.dataPagamento = dataPagamento;
+	}
+	/**
+	 * @return the pontosAdquiridos
+	 */
+	public int getPontosAdquiridos() {
+		return pontosAdquiridos;
+	}
+	/**
+	 * @param pontosAdquiridos the pontosAdquiridos to set
+	 */
+	public void setPontosAdquiridos(int pontosAdquiridos) {
+		this.pontosAdquiridos = pontosAdquiridos;
 	}
 
 }
