@@ -76,9 +76,16 @@ public class HistoricoPontosAdapter extends ArrayAdapter<Produto> {
         	drawable=R.drawable.toalha_santa_cruz;
         }
         //fill the view objects according values from Evento object
+        if(produto.getPontosAdquiridos()==0){
+        	preco.setText("Custou "+ produto.getPontos()+" pontos");
+        }
+        else{
+        	preco.setText("Custou R$"+ produto.getPreco()+"0");
+        	 pontos.setText("Ganhou "+ produto.getPontosAdquiridos()+" pontos");
+        }
         nome.setText(produto.getNomeProduto());
-        preco.setText("Custou "+ produto.getPontos()+" pontos");
-        pontos.setText("Ganhou "+ produto.getPontosAdquiridos()+" pontos");
+        
+       
         image.setBackgroundResource(drawable);
     	qtd.setText(produto.getDataCompra());
         return convertView;
