@@ -6,10 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import negocio.CalculoPontos;
+import bd.Banco;
 import bd.CartaoDAO;
 import bd.MensalidadesDAO;
 import bd.SocioDAO;
 import dominio.Cartao;
+import dominio.Compra;
 import dominio.Mensalidade;
 import dominio.Socio;
 import android.app.Activity;
@@ -178,6 +180,29 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				    builder.setMessage("Pagamento recusado")
 				       .setTitle("Recusado").setPositiveButton("OK", null);
+				    builder.create().show();
+				}
+			}
+			
+			
+			if(tipoTela.equals("pagamentoCompra")){
+				if(cartaoValidado!=null && cartaoValidado.getLimite()>(Compra.getCompraAtual().getProduto().getPreco()*Compra.getCompraAtual().getQtdProdutos()+5)){
+					Banco banco=new Banco(this);
+					Date date=new Date();
+					SimpleDateFormat formatar= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+					String data=formatar.format(date);
+					SocioDAO banco2=new SocioDAO (this);
+					cartaoValidado.setLimite(cartaoValidado.getLimite()-(Compra.getCompraAtual().getProduto().getPreco()*Compra.getCompraAtual().getQtdProdutos()+5));
+					
+					cDAO.updateLimite(cartaoValidado, cartaoValidado.getLimite());
+					//CalculoPontos calculo=new CalculoPontos(Socio.getSocioLogado(), )
+					//banco2.updatePontosSocio(Socio.getSocioLogado(), -(Compra.getCompraAtual().getQtdProdutos()*Compra.getCompraAtual().getProduto().getPontos()));
+					
+					banco.inserirCompraHistoricoDinheiro(Compra.getCompraAtual().getProduto().getNomeProduto(), Compra.getCompraAtual().getQtdProdutos(), Socio.getSocioLogado(), data);
+					
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				    builder.setMessage("Compra Confirmada com sucesso! A compra chegará em torno de 5 dias!")
+				       .setTitle("Compra").setPositiveButton("OK", null);
 				    builder.create().show();
 				}
 			}

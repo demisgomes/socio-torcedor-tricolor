@@ -61,6 +61,13 @@
             android:layout_height="wrap_content"
             android:text="Confirmar" />
 
+        <TextView
+            android:id="@+id/tvObs2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="O frete terá o preço único de R$ 5,00, exceto para compras com pontos" />
+
     </LinearLayout>
 
 </FrameLayout>
