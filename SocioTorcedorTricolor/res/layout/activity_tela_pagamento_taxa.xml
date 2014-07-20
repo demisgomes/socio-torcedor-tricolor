@@ -1,0 +1,45 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.sociotorcedortricolor.TelaPagamentoTaxa"
+    tools:ignore="MergeRootFrame" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/tvTituloPagarAdesao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="31dp"
+            android:text="Pagar Taxa Adesão"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/tvTextoExplicativoTaxa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tvTituloPagarAdesao"
+            android:layout_marginTop="48dp"
+            android:textSize="17sp"
+            android:text="É necessário você pagar uma taxa referente ao tipo de sócio que você é para ter acesso as funcionalidades do aplicativo. Você pode pagar no clube ou através do aplicativo, clicando no botão abaixo." />
+
+        <Button
+            android:id="@+id/btnPagarTaxa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTextoExplicativoTaxa"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="52dp"
+            android:text="Button" />
+
+    </RelativeLayout>
+
+</FrameLayout>
+

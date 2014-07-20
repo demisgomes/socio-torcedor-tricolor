@@ -63,6 +63,10 @@
             android:name="com.example.sociotorcedortricolor.TelaConfirmarCompra"
             android:label="@string/title_activity_tela_confirmar_compra" >
         </activity>
+        <activity
+            android:name="com.example.sociotorcedortricolor.TelaPagamentoTaxa"
+            android:label="@string/title_activity_tela_pagamento_taxa" >
+        </activity>
     </application>
 
 </manifest>

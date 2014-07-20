@@ -2,6 +2,8 @@ package com.example.sociotorcedortricolor;
 
 
 import bd.Banco;
+import bd.CartaoDAO;
+import bd.SocioDAO;
 import dominio.Socio;
 import android.app.Activity;
 import android.app.ActionBar;
@@ -69,7 +71,7 @@ public class TelaCadastro extends Activity {
 	 */
 	public static class PlaceholderFragment extends Fragment implements OnClickListener{
 		
-		EditText etNome, etEmail, etSenha, etConfSenha, etCPF, etTelefone;
+		EditText etNome, etEmail, etSenha, etConfSenha, etCPF, etTelefone, etNumCartao;
 		Spinner spTipoSocio, spSexo;
 		Button btnConfirmar;
 
@@ -90,6 +92,7 @@ public class TelaCadastro extends Activity {
 			etConfSenha=(EditText) rootView.findViewById(R.id.etConfSenha);
 			etCPF=(EditText) rootView.findViewById(R.id.etCPF);
 			etTelefone=(EditText) rootView.findViewById(R.id.etTelefone);
+			etNumCartao=(EditText) rootView.findViewById(R.id.etNumCartaoCadastro);
 			
 			
 			spTipoSocio = (Spinner) rootView.findViewById(R.id.spTipoSocio);
@@ -144,7 +147,7 @@ public class TelaCadastro extends Activity {
 			
 			if(v.getId()==R.id.btnConfirmar){
 				
-				String nome,email,senha,confSenha,cpf,telefone,tipoSocio,sexo;
+				String nome,email,senha,confSenha,cpf,telefone,tipoSocio,sexo, numCartao;
 				
 				nome=etNome.getText().toString();
 				email=etEmail.getText().toString();
@@ -154,7 +157,7 @@ public class TelaCadastro extends Activity {
 				telefone=etTelefone.getText().toString();
 				tipoSocio=spTipoSocio.getSelectedItem().toString();
 				sexo=spSexo.getSelectedItem().toString();
-				
+				numCartao=etNumCartao.getText().toString();
 
 				if(TelaCadastro.isEditar()){
 					Socio socio=new Socio(nome, email, senha, confSenha, cpf, telefone, tipoSocio, sexo,0,0);
@@ -174,15 +177,28 @@ public class TelaCadastro extends Activity {
 				
 				else
 				{
-					Socio socio=new Socio(nome, email, senha, confSenha, cpf, telefone, tipoSocio, sexo,0,0);
-					Banco banco=new Banco(getActivity());
-					banco.cadastrarSocio(socio);
+					CartaoDAO cDAO=new CartaoDAO(getActivity());
 					
-					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-					builder.setMessage(" Parabéns! Você se associou!")
-					       .setTitle("Parabéns");
-					AlertDialog dialog = builder.create();
-					dialog.show();
+					if(cDAO.validarCartaoCadastro(numCartao, cpf)){
+						Socio socio=new Socio(nome, email, senha, confSenha, cpf, telefone, tipoSocio, sexo,0,0);
+						SocioDAO banco=new SocioDAO(getActivity());
+						banco.cadastrarSocio(socio);
+						
+						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+						builder.setMessage(" Parabéns! Você se associou!")
+						       .setTitle("Parabéns");
+						AlertDialog dialog = builder.create();
+						dialog.show();
+					}
+					
+					else{
+						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+						builder.setMessage("Cartão inválido ou não pertence ao sócio")
+						       .setTitle("Inválido");
+						AlertDialog dialog = builder.create();
+						dialog.show();
+					}
+					
 
 				}
 			}

@@ -164,4 +164,24 @@ public class CartaoDAO {
 		}
 		
 	}
+	
+	public boolean validarCartaoCadastro(String numCartao, String cpf){
+		try{
+			openBd();
+			
+			String pesquisa="SELECT * FROM tabelaCartoes WHERE numero LIKE '"+numCartao+"' AND cpfTitular LIKE '"+cpf+"'";
+			Cursor cursor=bancoDados.rawQuery(pesquisa, null);
+			
+			cursor.moveToFirst();
+			String num=cursor.getString(cursor.getColumnIndex("numero"));
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			closeBd();
+		}
+	}
 }

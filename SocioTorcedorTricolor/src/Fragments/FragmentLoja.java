@@ -126,9 +126,9 @@ public class FragmentLoja extends Fragment {
 							banco.inserirCompraHistorico(Produto.getListaProdutosSeparados().get(position).getNomeProduto(), qtdDesejada, Socio.getSocioLogado(), data);
 							Banco banco2=new Banco (getActivity());
 							banco2.updatePontosSocio(Socio.getSocioLogado(), -(qtdDesejada*Produto.getListaProdutosSeparados().get(position).getPontos()));
-							Banco banco3= new Banco(getActivity());
-							CalculoPontos calculo=new CalculoPontos(null, Socio.getSocioLogado(), Produto.getListaProdutosSeparados().get(position).getPreco());
-							banco3.updatePontosSocio(Socio.getSocioLogado(), (calculo.getPontos()*qtdDesejada));
+							//Banco banco3= new Banco(getActivity());
+							//CalculoPontos calculo=new CalculoPontos(null, Socio.getSocioLogado(), Produto.getListaProdutosSeparados().get(position).getPreco());
+							//banco3.updatePontosSocio(Socio.getSocioLogado(), (calculo.getPontos()*qtdDesejada));
 							
 							Intent intent=new Intent(getActivity(), TelaInicial.class);
 							startActivity(intent);

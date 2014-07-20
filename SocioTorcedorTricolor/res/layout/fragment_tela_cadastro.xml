@@ -13,7 +13,7 @@
     <LinearLayout
         android:id="@+id/lnLayoutCampos"
         android:layout_width="280dp"
-        android:layout_height="360dp"
+        android:layout_height="500dp"
         android:orientation="vertical" >
 
         <EditText
@@ -66,6 +66,14 @@
             android:ems="10"
             android:hint="Telefone"
             android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/etNumCartaoCadastro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Num. Cartão"
+            android:inputType="number" />
         
         <LinearLayout
         android:id="@+id/lnLayoutCombobox"
