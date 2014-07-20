@@ -497,7 +497,7 @@ public class Banco {
 		try {
 			Cursor cursor;
 			openBd();
-			String sql="SELECT idProduto, pontosAdquiridos, dataCompra FROM tabelaPontosUsuario WHERE idUsuario = '"+usuarioGetId(Socio.getSocioLogado().getEmail())+"' AND foiCompra= '0'";
+			String sql="SELECT idProduto, pontosAdquiridos, dataCompra FROM tabelaPontosUsuario WHERE idUsuario = '"+socio.getIdUnico()+"' AND foiCompra= '0'";
 			cursor=bancoDados.rawQuery(sql, null);
 			cursor.moveToFirst();
 			ArrayList<Produto> listaHistorico=new ArrayList<Produto>();
@@ -506,7 +506,7 @@ public class Banco {
 				Produto p=retorneProduto(cursor.getInt(cursor.getColumnIndex("idProduto")), "");
 				p.setDataCompra(cursor.getString(cursor.getColumnIndex("dataCompra")));
 				p.setPontosAdquiridos(cursor.getInt(cursor.getColumnIndex("pontosAdquiridos")));
-				p.setPontos(0);
+				//p.setPontos(0);
 				listaHistorico.add(p);
 				if(i!=cursor.getCount()-1){
 					cursor.moveToNext();
@@ -641,7 +641,7 @@ public class Banco {
 			cursor.moveToFirst();
 			for(int i=0;i<qtd;i++){
 				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getInt(cursor.getColumnIndex("pontos")));
-				String update= "UPDATE "+tabelaProdutos+" SET adquirido='1' WHERE _id LIKE '"+cursor.getInt(0)+"'";
+				String update= "UPDATE "+tabelaProdutos+" SET adquirido='1', preco = '"+(p.getPreco()+5)+"' WHERE _id LIKE '"+cursor.getInt(0)+"'";
 				bancoDados.execSQL(update);
 				CalculoPontos calculo =new CalculoPontos(socio, p.getPreco());
 				String inserePontosUsuario="INSERT INTO "+tabelaPontosUsuario+"(idProduto, idUsuario, pontosAdquiridos, dataCompra, foiCompra) VALUES ('"+cursor.getInt(0)+"', '"+socio.getIdUnico()+"','"+calculo.getPontos()+"' , '"+data+"', '1')";
