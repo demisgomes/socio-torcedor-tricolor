@@ -183,7 +183,7 @@ public class TelaCadastro extends Activity {
 						Socio socio=new Socio(nome, email, senha, confSenha, cpf, telefone, tipoSocio, sexo,0,0);
 						SocioDAO banco=new SocioDAO(getActivity());
 						banco.cadastrarSocio(socio);
-						
+						cDAO.inserirIdSocioCartao(socio);
 						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 						builder.setMessage(" Parabéns! Você se associou!")
 						       .setTitle("Parabéns");

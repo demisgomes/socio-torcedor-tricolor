@@ -5,7 +5,7 @@ public class Socio {
 	private String nome,email,senha,confSenha,cpf,telefone,tipoSocio,sexo;
 	private int pontos,ranking, idUnico, situacao;
 	private String rua, num, bairro, cidade, estado;
-	
+	private Cartao cartao;
 	public static float taxaAdesao;
 	
 	public String getRua() {
@@ -172,6 +172,20 @@ public class Socio {
 	 */
 	public void setSituacao(int situacao) {
 		this.situacao = situacao;
+	}
+
+	/**
+	 * @return the cartao
+	 */
+	public Cartao getCartao() {
+		return cartao;
+	}
+
+	/**
+	 * @param cartao the cartao to set
+	 */
+	public void setCartao(Cartao cartao) {
+		this.cartao = cartao;
 	}
 
 	public static Socio socioLogado;

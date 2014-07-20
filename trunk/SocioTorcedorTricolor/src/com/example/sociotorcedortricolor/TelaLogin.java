@@ -180,6 +180,8 @@ public class TelaLogin extends Activity implements OnClickListener {
 		} else {
 			SocioDAO banco=new SocioDAO(this);
 			if(banco.validarLogin(mEmail, mPassword)){
+				CartaoDAO cDAO=new CartaoDAO(this);
+				Socio.getSocioLogado().setCartao(cDAO.retornarCartao(Socio.getSocioLogado().getCpf()));
 				// Show a progress spinner, and kick off a background task to
 				// perform the user login attempt.
 				mLoginStatusMessageView.setText(R.string.login_progress_signing_in);

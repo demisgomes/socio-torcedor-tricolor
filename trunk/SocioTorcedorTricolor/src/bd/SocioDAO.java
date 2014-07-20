@@ -178,5 +178,20 @@ public class SocioDAO {
 		String sql="INSERT INTO tabelaSocios (nome, dataNascimento, email, senha, sexo, pontos, ranking, tipoSocio, cpf, telefone, situacao) VALUES ('"+nome+"', '26/11/2005','"+email+"','"+senha+"', '"+sexo+"', '0', '0', '"+tipoSocio+"', '"+cpf+"', '"+telefone+"', '0')";
 		return sql;
 	}
+	
+	public void updateSituacao(Socio socio, int situacao){
+		try{
+			openBd();
+			//String sql=insertSocioHelper(socio.getNome(), socio.getEmail(), socio.getSenha(), socio.getConfSenha(), socio.getCpf(), socio.getTelefone(), socio.getTipoSocio(), socio.getSexo());
+			String sql="UPDATE tabelaSocios SET situacao = '"+situacao+"' WHERE cpf LIKE '"+socio.getCpf()+"'";
+			bancoDados.execSQL(sql);			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
 }
 

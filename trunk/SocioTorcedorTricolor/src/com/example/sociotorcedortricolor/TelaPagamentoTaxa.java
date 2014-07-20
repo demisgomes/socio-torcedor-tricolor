@@ -1,22 +1,29 @@
 package com.example.sociotorcedortricolor;
 
+import dominio.Socio;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.os.Build;
 
-public class TelaPagamentoTaxa extends Activity {
-
+public class TelaPagamentoTaxa extends Activity implements OnClickListener {
+	Button btnTaxa;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tela_pagamento_taxa);
+		btnTaxa=(Button) findViewById(R.id.btnPagarTaxa);
+		btnTaxa.setText("Pagar Taxa (R$ "+Socio.taxaAdesao+"0)");
+		btnTaxa.setOnClickListener(this);
 
 	}
 
@@ -38,6 +45,15 @@ public class TelaPagamentoTaxa extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		Intent intent=new Intent(TelaPagamentoTaxa.this, TelaConfirmarCompra.class);
+		TelaConfirmarCompra.tipoTela= "pagamentoTaxa";
+		startActivity(intent);
+		
 	}
 
 }
