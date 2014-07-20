@@ -204,11 +204,11 @@ public class CartaoDAO {
 		}
 	}
 	
-	public Cartao retornarCartao(String cpfSocio){
+	public Cartao retornarCartao(Socio socio){
 		try{
 			openBd();
 			
-			String pesquisa="SELECT * FROM tabelaCartoes WHERE cpfTitular LIKE '"+cpfSocio+"'";
+			String pesquisa="SELECT * FROM tabelaCartoes WHERE idSocio LIKE '"+socio.getIdUnico()+"'";
 			Cursor cursor=bancoDados.rawQuery(pesquisa, null);
 			
 			cursor.moveToFirst();

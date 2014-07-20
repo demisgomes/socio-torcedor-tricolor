@@ -555,8 +555,8 @@ public class Banco {
 				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getInt(cursor.getColumnIndex("pontos")));
 				String update= "UPDATE "+tabelaProdutos+" SET adquirido='1' WHERE _id LIKE '"+cursor.getInt(0)+"'";
 				bancoDados.execSQL(update);
-				CalculoPontos calculo =new CalculoPontos(null, socio, p.getPreco());
-				String inserePontosUsuario="INSERT INTO "+tabelaPontosUsuario+"(idProduto, idUsuario, pontosAdquiridos, dataCompra, foiCodigo) VALUES ('"+cursor.getInt(0)+"', '"+usuarioGetId(socio.getEmail())+"', '"+(calculo.getPontos())+"', '"+data+"', '0')";
+				//CalculoPontos calculo =new CalculoPontos(null, socio, p.getPreco());
+				String inserePontosUsuario="INSERT INTO "+tabelaPontosUsuario+"(idProduto, idUsuario, pontosAdquiridos, dataCompra, foiCodigo) VALUES ('"+cursor.getInt(0)+"', '"+usuarioGetId(socio.getEmail())+"', '0', '"+data+"', '0')";
 				bancoDados.execSQL(inserePontosUsuario);
 				//String updateUsuario= "UPDATE "+tabelaSocios+" SET pontos='"+(calculo.getPontos()+socio.getPontos())+"' WHERE _id LIKE '"+usuarioGetId(socio.getEmail())+"'";
 				//bancoDados.execSQL(updateUsuario);

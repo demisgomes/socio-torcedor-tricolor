@@ -130,6 +130,7 @@ public class SocioDAO {
 			cursor.moveToFirst();
 			Socio s=new Socio(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("email")), cursor.getString(cursor.getColumnIndex("senha")),cursor.getString(cursor.getColumnIndex("senha")), cursor.getString(cursor.getColumnIndex("cpf")), cursor.getString(cursor.getColumnIndex("telefone")),cursor.getString(cursor.getColumnIndex("tipoSocio")), cursor.getString(cursor.getColumnIndex("sexo")), cursor.getInt(cursor.getColumnIndex("pontos")), cursor.getInt(cursor.getColumnIndex("ranking")));
 			s.setIdUnico(cursor.getInt(cursor.getColumnIndex("_id")));
+			s.setSituacao(cursor.getInt(cursor.getColumnIndex("situacao")));
 			Socio.socioLogado=s;
 			return true;
 		} catch (Exception e) {

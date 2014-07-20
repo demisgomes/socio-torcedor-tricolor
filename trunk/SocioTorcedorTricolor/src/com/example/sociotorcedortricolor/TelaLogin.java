@@ -75,6 +75,7 @@ public class TelaLogin extends Activity implements OnClickListener {
 			banco.populeBanco();
 			SocioDAO sDAO=new SocioDAO(this);
 			sDAO.cadastrarSocio(socio);
+			sDAO.updateSituacao(socio, 1);
 			banco.updatePontosSocio(socio, 3000);
 			cDAO.populeCartoes();
 			mDAO.inserirMensalidade(socio, "08", banco);
@@ -181,7 +182,7 @@ public class TelaLogin extends Activity implements OnClickListener {
 			SocioDAO banco=new SocioDAO(this);
 			if(banco.validarLogin(mEmail, mPassword)){
 				CartaoDAO cDAO=new CartaoDAO(this);
-				Socio.getSocioLogado().setCartao(cDAO.retornarCartao(Socio.getSocioLogado().getCpf()));
+				Socio.getSocioLogado().setCartao(cDAO.retornarCartao(Socio.getSocioLogado()));
 				// Show a progress spinner, and kick off a background task to
 				// perform the user login attempt.
 				mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
