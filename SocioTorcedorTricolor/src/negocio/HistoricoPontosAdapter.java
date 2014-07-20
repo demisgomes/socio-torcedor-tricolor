@@ -78,6 +78,7 @@ public class HistoricoPontosAdapter extends ArrayAdapter<Produto> {
         //fill the view objects according values from Evento object
         if(produto.getPontosAdquiridos()==0){
         	preco.setText("Custou "+ produto.getPontos()+" pontos");
+        	pontos.setText("");
         }
         else{
         	preco.setText("Custou R$"+ produto.getPreco()+"0");
