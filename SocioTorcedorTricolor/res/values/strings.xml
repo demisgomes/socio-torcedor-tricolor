@@ -27,5 +27,6 @@
     <string name="title_activity_tela_historico_compras">TelaHistoricoCompras</string>
     <string name="title_activity_tela_confirmar_compra">TelaConfirmarCompra</string>
     <string name="title_activity_tela_pagamento_taxa">TelaPagamentoTaxa</string>
+    <string name="title_activity_tela_confirmar_endereco">TelaConfirmarEndereco</string>
 
 </resources>

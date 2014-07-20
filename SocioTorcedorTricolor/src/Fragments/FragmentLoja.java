@@ -20,8 +20,10 @@ import negocio.CustomAdapter;
 import bd.Banco;
 
 import com.example.sociotorcedortricolor.R;
+import com.example.sociotorcedortricolor.TelaConfirmarEndereco;
 import com.example.sociotorcedortricolor.TelaInicial;
 
+import dominio.Compra;
 import dominio.Produto;
 import dominio.Socio;
 import android.app.AlertDialog;
@@ -117,7 +119,19 @@ public class FragmentLoja extends Fragment {
 						int pontosCompra= Produto.getListaProdutosSeparados().get(position).getPontos()*qtdDesejada;
 						int pontosSocio= Socio.getSocioLogado().getPontos();
 						String mensagem;
-						if(pontosSocio>=pontosCompra){
+						Compra compraAtual=new Compra(qtdDesejada, Produto.getListaProdutosSeparados().get(position));
+						Compra.setCompraAtual(compraAtual);
+						if(which==dialog.BUTTON_POSITIVE){
+							TelaConfirmarEndereco.tipoTela="pagamentoDinheiro";
+							Intent intent=new Intent(getActivity(), TelaConfirmarEndereco.class);
+							startActivity(intent);
+						}
+						if(which==dialog.BUTTON_NEGATIVE){
+							TelaConfirmarEndereco.tipoTela="pagamentoPontos";
+							Intent intent=new Intent(getActivity(), TelaConfirmarEndereco.class);
+							startActivity(intent);
+						}
+						/*if(pontosSocio>=pontosCompra){
 							 mensagem="Compra efetuada com sucesso!";
 							Banco banco=new Banco(getActivity());
 							Date date=new Date();
@@ -142,14 +156,14 @@ public class FragmentLoja extends Fragment {
 					    builder.setMessage(mensagem)
 					       .setTitle("Compra");
 					    builder.create().show();
-						
+						*/
 					}
 				};
 
 			    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			    builder.setView(sp);
 			    builder.setMessage(" Escolha a quantidade de produtos")
-			       .setTitle("Compra").setPositiveButton("OK", listener);
+			       .setTitle("Compra").setPositiveButton("Dinheiro", listener).setNegativeButton("Pontos", listener);
 			    builder.create().show();
 				
 			    
