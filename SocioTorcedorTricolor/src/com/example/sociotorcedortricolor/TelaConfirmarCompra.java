@@ -34,6 +34,8 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 	String nomeTitular, numeroCartao, codSeguranca, cpfTitular, dataVencimento;
 	Button btnConfirmarCompra;
 	int posicaoMensalidade;
+	
+	public static String tipoTela;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,6 +56,14 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 		Intent intent = getIntent();
 	    posicaoMensalidade = intent.getIntExtra("posicao", 0);
 		
+	    if(Socio.getSocioLogado().getCartao()!=null){
+	    	etNomeTitular.setText(Socio.getSocioLogado().getCartao().getTitular());
+			etNumeroCartao.setText(Socio.getSocioLogado().getCartao().getNumero());
+			etCodSeguranca.setText(Socio.getSocioLogado().getCartao().getCodSeguranca());
+			etCPFTitular.setText(Socio.getSocioLogado().getCartao().getCpfTitular());
+			etDataVencimento.setText(Socio.getSocioLogado().getCartao().getVencimento());
+			
+	    }
 		
 	}
 
@@ -90,60 +100,88 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 			CartaoDAO cDAO=new CartaoDAO(this);
 			Cartao cartaoValidado= cDAO.validarCartao(cartao);
 			
-			Mensalidade mensalidade=Mensalidade.getListaMensalidades().get(posicaoMensalidade);
-			
-			if(cartaoValidado!=null && cartaoValidado.getLimite()>mensalidade.getPreco()){
+			//---------------------------------
+			//SE FOR TELA DE PAGAMENTO DA TAXA
+			//---------------------------------
+			if(tipoTela.equals("pagamentoTaxa")){
 				
-				Date data= new Date();
-				DateFormat formato=new SimpleDateFormat("dd/MM/yyyy");
-				Date dataComparada=null;
-				
-				try {
-					dataComparada = formato.parse(mensalidade.getDataVencimento());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				System.out.println(data.after(dataComparada));
-				
-				cartaoValidado.setLimite(cartaoValidado.getLimite()-mensalidade.getPreco());
-				
-				cDAO.updateLimite(cartaoValidado, cartaoValidado.getLimite());
-				
-				MensalidadesDAO mDAO=new MensalidadesDAO(this);
-				int emDia;
-				if(data.after(dataComparada)){
-					emDia=2;
-				}
-				else{
-					emDia=1;
-					SocioDAO sDAO= new SocioDAO(this);
-					CalculoPontos calculo= new CalculoPontos(Socio.getSocioLogado(), mensalidade);
-					sDAO.updatePontosSocio(Socio.getSocioLogado(), calculo.getPontos());
-					mDAO.updateMensalidade(mensalidade, calculo.getPontos());
+				if(cartaoValidado!=null && cartaoValidado.getLimite()>Socio.taxaAdesao){
+					cartaoValidado.setLimite(cartaoValidado.getLimite()-Socio.taxaAdesao);
 					
+					cDAO.updateLimite(cartaoValidado, cartaoValidado.getLimite());
+					SocioDAO sDAO=new SocioDAO(this);
+					sDAO.updateSituacao(Socio.getSocioLogado(), 1);
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				    builder.setMessage("Pagamento da Taxa Aprovado")
+				       .setTitle("Validado").setPositiveButton("OK", null);
+				    builder.create().show();
+				    
+				    
+				    Intent intent = new Intent(this, TelaInicial.class);
+				    startActivity(intent);
 				}
-				
-				mensalidade.setEmDia(emDia);
-				mensalidade.setDataPagamento(formato.format(data));
-				
-				mDAO.updateMensalidade(mensalidade);
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			    builder.setMessage("Pagamento de mensalidade Aprovado")
-			       .setTitle("Validado").setPositiveButton("OK", null);
-			    builder.create().show();
-			    
-			    Intent intent = new Intent(this, TelaInicial.class);
-			    startActivity(intent);
 			}
 			
-			else{
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			    builder.setMessage("Pagamento recusado")
-			       .setTitle("Recusado").setPositiveButton("OK", null);
-			    builder.create().show();
+			//---------------------------------
+			//SE FOR TELA DE PAGAMENTO DA MENSALIDADE
+			//---------------------------------
+			if(tipoTela.equals("pagamentoMensalidade")){
+				Mensalidade mensalidade=Mensalidade.getListaMensalidades().get(posicaoMensalidade);
+				
+				if(cartaoValidado!=null && cartaoValidado.getLimite()>mensalidade.getPreco()){
+					
+					Date data= new Date();
+					DateFormat formato=new SimpleDateFormat("dd/MM/yyyy");
+					Date dataComparada=null;
+					
+					try {
+						dataComparada = formato.parse(mensalidade.getDataVencimento());
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					System.out.println(data.after(dataComparada));
+					
+					cartaoValidado.setLimite(cartaoValidado.getLimite()-mensalidade.getPreco());
+					
+					cDAO.updateLimite(cartaoValidado, cartaoValidado.getLimite());
+					
+					MensalidadesDAO mDAO=new MensalidadesDAO(this);
+					int emDia;
+					if(data.after(dataComparada)){
+						emDia=2;
+					}
+					else{
+						emDia=1;
+						SocioDAO sDAO= new SocioDAO(this);
+						CalculoPontos calculo= new CalculoPontos(Socio.getSocioLogado(), mensalidade);
+						sDAO.updatePontosSocio(Socio.getSocioLogado(), calculo.getPontos());
+						mDAO.updateMensalidade(mensalidade, calculo.getPontos());
+						
+					}
+					
+					mensalidade.setEmDia(emDia);
+					mensalidade.setDataPagamento(formato.format(data));
+					
+					mDAO.updateMensalidade(mensalidade);
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				    builder.setMessage("Pagamento de mensalidade Aprovado")
+				       .setTitle("Validado").setPositiveButton("OK", null);
+				    builder.create().show();
+				    
+				    Intent intent = new Intent(this, TelaInicial.class);
+				    startActivity(intent);
+				}
+				
+				else{
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				    builder.setMessage("Pagamento recusado")
+				       .setTitle("Recusado").setPositiveButton("OK", null);
+				    builder.create().show();
+				}
 			}
+			
 		}
 		
 	}

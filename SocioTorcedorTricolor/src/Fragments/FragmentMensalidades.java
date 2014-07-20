@@ -61,6 +61,7 @@ public class FragmentMensalidades extends Fragment implements OnClickListener{
 				
 				if(Mensalidade.getListaMensalidades().get(position).getEmDia()==0){
 					Intent intent = new Intent(getActivity(), TelaConfirmarCompra.class);
+					TelaConfirmarCompra.tipoTela="pagamentoMensalidade";
 					intent.putExtra("posicao", position);
 					startActivity(intent);
 

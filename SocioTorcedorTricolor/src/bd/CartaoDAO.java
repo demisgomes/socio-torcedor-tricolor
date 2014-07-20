@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import dominio.Cartao;
 import dominio.Produto;
+import dominio.Socio;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -179,6 +180,44 @@ public class CartaoDAO {
 		catch(Exception e){
 			e.printStackTrace();
 			return false;
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public void inserirIdSocioCartao(Socio socio){
+		try{
+			openBd();
+			String pesquisaSocio="SELECT _id FROM tabelaSocios WHERE cpf like '"+socio.getCpf()+"'";
+			Cursor cursor1=bancoDados.rawQuery(pesquisaSocio, null);
+			cursor1.moveToFirst();
+			int id=cursor1.getInt(cursor1.getColumnIndex("_id"));
+			String pesquisa="UPDATE tabelaCartoes SET idSocio = '"+id+"' WHERE cpfTitular LIKE '"+socio.getCpf()+"'";
+			bancoDados.execSQL(pesquisa);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
+	public Cartao retornarCartao(String cpfSocio){
+		try{
+			openBd();
+			
+			String pesquisa="SELECT * FROM tabelaCartoes WHERE cpfTitular LIKE '"+cpfSocio+"'";
+			Cursor cursor=bancoDados.rawQuery(pesquisa, null);
+			
+			cursor.moveToFirst();
+			Cartao c= new Cartao(cursor.getString(cursor.getColumnIndex("numero")), cursor.getString(cursor.getColumnIndex("codSeguranca")), cursor.getString(cursor.getColumnIndex("titular")), cursor.getString(cursor.getColumnIndex("vencimento")), cursor.getFloat(cursor.getColumnIndex("limite")), cursor.getString(cursor.getColumnIndex("cpfTitular")), cursor.getInt(cursor.getColumnIndex("_id")));
+			return c;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
 		}
 		finally{
 			closeBd();
