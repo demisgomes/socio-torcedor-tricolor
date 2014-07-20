@@ -42,7 +42,7 @@ public class Banco {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 				//TABELA DE USUÁRIOS (tabelaUsuarios)
-				String sql = "CREATE TABLE IF NOT EXISTS "+tabelaSocios+" (_id INTEGER PRIMARY KEY, nome TEXT, dataNascimento TEXT, email TEXT, senha TEXT, sexo TEXT, pontos INTEGER, ranking INTEGER, tipoSocio TEXT, cpf TEXT, telefone TEXT)";
+				String sql = "CREATE TABLE IF NOT EXISTS "+tabelaSocios+" (_id INTEGER PRIMARY KEY, nome TEXT, dataNascimento TEXT, email TEXT, senha TEXT, sexo TEXT, pontos INTEGER, ranking INTEGER, tipoSocio TEXT, cpf TEXT, telefone TEXT, situacao INTEGER, rua TEXT, numero TEXT, bairro TEXT, cidade TEXT, estado TEXT)";
 				db.execSQL(sql);
 				//TABELA DE EVENTOS (tabelaEventos)
 				String sqlEvento = "CREATE TABLE IF NOT EXISTS "+tabelaProdutos+" (_id INTEGER PRIMARY KEY, codigo TEXT, nome TEXT, preco FLOAT, pontos INTEGER, adquirido INTEGER)";
@@ -115,11 +115,7 @@ public class Banco {
 		return sql;
 	}
 	
-	public String insertSocioHelper(String nome, String email, String senha, String confSenha,
-			String cpf, String telefone, String tipoSocio, String sexo){
-		String sql="INSERT INTO tabelaSocios (nome, dataNascimento, email, senha, sexo, pontos, ranking, tipoSocio, cpf, telefone) VALUES ('"+nome+"', '26/11/2005','"+email+"','"+senha+"', '"+sexo+"', '0', '0', '"+tipoSocio+"', '"+cpf+"', '"+telefone+"')";
-		return sql;
-	}
+	
 	
 	public void populeBanco(){
 		try{
@@ -221,19 +217,7 @@ public class Banco {
 		}
 	}
 	
-	public void cadastrarSocio(Socio socio){
-		try{
-			openBd();
-			String sql=insertSocioHelper(socio.getNome(), socio.getEmail(), socio.getSenha(), socio.getConfSenha(), socio.getCpf(), socio.getTelefone(), socio.getTipoSocio(), socio.getSexo());
-			bancoDados.execSQL(sql);			
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		finally{
-			closeBd();
-		}
-	}
+	
 	
 	public void editarSocio(Socio socio, int id){
 		try{

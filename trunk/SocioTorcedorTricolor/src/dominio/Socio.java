@@ -3,7 +3,50 @@ package dominio;
 public class Socio {
 	
 	private String nome,email,senha,confSenha,cpf,telefone,tipoSocio,sexo;
-	private int pontos,ranking, idUnico;
+	private int pontos,ranking, idUnico, situacao;
+	private String rua, num, bairro, cidade, estado;
+	
+	public static float taxaAdesao;
+	
+	public String getRua() {
+		return rua;
+	}
+
+	public void setRua(String rua) {
+		this.rua = rua;
+	}
+
+	public String getNum() {
+		return num;
+	}
+
+	public void setNum(String num) {
+		this.num = num;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 
 	public String getNome() {
 		return nome;
@@ -115,6 +158,20 @@ public class Socio {
 
 	public void setIdUnico(int idUnico) {
 		this.idUnico = idUnico;
+	}
+
+	/**
+	 * @return the situacao
+	 */
+	public int getSituacao() {
+		return situacao;
+	}
+
+	/**
+	 * @param situacao the situacao to set
+	 */
+	public void setSituacao(int situacao) {
+		this.situacao = situacao;
 	}
 
 	public static Socio socioLogado;

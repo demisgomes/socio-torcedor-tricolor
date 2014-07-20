@@ -150,6 +150,7 @@ public class SocioDAO {
 			cursor.moveToFirst();
 			Socio s=new Socio(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("email")), cursor.getString(cursor.getColumnIndex("senha")),cursor.getString(cursor.getColumnIndex("senha")), cursor.getString(cursor.getColumnIndex("cpf")), cursor.getString(cursor.getColumnIndex("telefone")),cursor.getString(cursor.getColumnIndex("tipoSocio")), cursor.getString(cursor.getColumnIndex("sexo")), cursor.getInt(cursor.getColumnIndex("pontos")), cursor.getInt(cursor.getColumnIndex("ranking")));
 			s.setIdUnico(cursor.getInt(cursor.getColumnIndex("_id")));
+			s.setSituacao(cursor.getInt(cursor.getColumnIndex("situacao")));
 			Socio.socioLogado=s;
 			return true;
 		} catch (Exception e) {
@@ -157,6 +158,25 @@ public class SocioDAO {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public void cadastrarSocio(Socio socio){
+		try{
+			openBd();
+			String sql=insertSocioHelper(socio.getNome(), socio.getEmail(), socio.getSenha(), socio.getConfSenha(), socio.getCpf(), socio.getTelefone(), socio.getTipoSocio(), socio.getSexo());
+			bancoDados.execSQL(sql);			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeBd();
+		}
+	}
+	public String insertSocioHelper(String nome, String email, String senha, String confSenha,
+			String cpf, String telefone, String tipoSocio, String sexo){
+		String sql="INSERT INTO tabelaSocios (nome, dataNascimento, email, senha, sexo, pontos, ranking, tipoSocio, cpf, telefone, situacao) VALUES ('"+nome+"', '26/11/2005','"+email+"','"+senha+"', '"+sexo+"', '0', '0', '"+tipoSocio+"', '"+cpf+"', '"+telefone+"', '0')";
+		return sql;
 	}
 }
 

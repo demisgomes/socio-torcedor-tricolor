@@ -6,6 +6,7 @@ import dominio.Socio;
 import bd.Banco;
 import bd.CartaoDAO;
 import bd.MensalidadesDAO;
+import bd.SocioDAO;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -69,10 +70,11 @@ public class TelaLogin extends Activity implements OnClickListener {
 		CartaoDAO cDAO = new CartaoDAO(this);
 		MensalidadesDAO mDAO = new MensalidadesDAO(this);
 
-		Socio socio=new Socio("Demis", "d@", "12345", "12345", "111", "111", "Ouro", "Masculino", 0, 0);
+		Socio socio=new Socio("Demis", "d@", "12345", "12345", "10292347448", "111", "Ouro", "Masculino", 0, 0);
 		if(banco.retorneProduto("G7R4-T9Y0")==null){
 			banco.populeBanco();
-			banco.cadastrarSocio(socio);
+			SocioDAO sDAO=new SocioDAO(this);
+			sDAO.cadastrarSocio(socio);
 			banco.updatePontosSocio(socio, 3000);
 			cDAO.populeCartoes();
 			mDAO.inserirMensalidade(socio, "08", banco);
@@ -176,7 +178,7 @@ public class TelaLogin extends Activity implements OnClickListener {
 			// form field with an error.
 			focusView.requestFocus();
 		} else {
-			Banco banco=new Banco(this);
+			SocioDAO banco=new SocioDAO(this);
 			if(banco.validarLogin(mEmail, mPassword)){
 				// Show a progress spinner, and kick off a background task to
 				// perform the user login attempt.
@@ -184,9 +186,26 @@ public class TelaLogin extends Activity implements OnClickListener {
 				showProgress(true);
 				mAuthTask = new UserLoginTask();
 				mAuthTask.execute((Void) null);
+				if(Socio.getSocioLogado().getSituacao()!=0){
+					Intent intent= new Intent (TelaLogin.this, TelaInicial.class);
+					startActivity(intent);
+				}
+				else{
+					float taxa=20;
+					if(Socio.getSocioLogado().getTipoSocio().equals("Master")){
+						taxa=90;
+					}
+					if(Socio.getSocioLogado().getTipoSocio().equals("Ouro")){
+						taxa=70;
+					}
+					if(Socio.getSocioLogado().getTipoSocio().equals("Prata")){
+						taxa=50;
+					}
+					Socio.taxaAdesao=taxa;
+					Intent intent= new Intent (TelaLogin.this, TelaPagamentoTaxa.class);
+					startActivity(intent);
+				}
 				
-				Intent intent= new Intent (TelaLogin.this, TelaInicial.class);
-				startActivity(intent);
 			}
 			
 		}
