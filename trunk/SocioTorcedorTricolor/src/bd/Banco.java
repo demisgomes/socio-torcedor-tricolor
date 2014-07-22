@@ -18,6 +18,7 @@ public class Banco {
 	private final String tabelaPontosUsuario="tabelaPontosUsuario";
 	private final String tabelaCartoes="tabelaCartoes";
 	private final String tabelaMensalidades="tabelaMensalidades";
+	private final String tabelaCodigos="tabelaCodigos";
 	private static int versaoBD=1;
 	private BDhelper bdHelper;
 	private SQLiteDatabase bancoDados;
@@ -53,6 +54,7 @@ public class Banco {
 				db.execSQL(sqlCartoes);
 				String sqlMensalidades = "CREATE TABLE IF NOT EXISTS "+tabelaMensalidades+" (_id INTEGER PRIMARY KEY, preco FLOAT, dataVencimento TEXT, idSocio INTEGER, emDia INTEGER, dataPagamento TEXT, pontosAdquiridos INTEGER)";
 				db.execSQL(sqlMensalidades);
+				
 		}
 
 		
@@ -105,6 +107,9 @@ public class Banco {
 		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G7R6-T9Y0", (float)9.90, 500));
 		ListaDeProdutos.add(new Produto("Ingresso- STA X CEA", "G7R7-T9Y0", (float)15.00, 600));
 		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R8-T9Y0", (float)189.90, 1500));
+		ListaDeProdutos.add(new Produto("c", "ZZZZ-FFFF", (float)189.90, 1000));
+		ListaDeProdutos.add(new Produto("c", "ZZZZ-FFGG", (float)189.90, 1000));
+		ListaDeProdutos.add(new Produto("c", "ZZZZ-FFHH", (float)189.90, 1000));
 		
 		return ListaDeProdutos;
 		
@@ -439,7 +444,7 @@ public class Banco {
 		try {
 			Cursor cursor;
 			openBd();
-			String sql="SELECT * FROM tabelaProdutos WHERE adquirido != 1 GROUP BY nome";
+			String sql="SELECT * FROM tabelaProdutos WHERE adquirido != 1 AND nome != 'c' GROUP BY nome";
 			cursor=bancoDados.rawQuery(sql, null);
 			cursor.moveToFirst();
 			ArrayList<Produto> listaProdutos=new ArrayList<Produto>();
@@ -630,6 +635,7 @@ public class Banco {
 		
 		
 	}
+	
 	
 	
 	public void inserirCompraHistoricoDinheiro(String nomeProduto, int qtd, Socio socio, String data){

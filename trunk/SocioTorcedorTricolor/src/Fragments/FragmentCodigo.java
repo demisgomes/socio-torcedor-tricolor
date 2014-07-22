@@ -54,11 +54,11 @@ public class FragmentCodigo extends Fragment implements OnClickListener {
 			DateFormat formatar= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			String data=formatar.format(date);
 			if(p!=null){
-				CalculoPontos calculo =new CalculoPontos(Socio.getSocioLogado(), p.getPreco());
-				banco.updatePontosSocio(Socio.getSocioLogado(), calculo.getPontos());
-				banco.inserirCompraHistorico(p, Socio.getSocioLogado(), data, calculo.getPontos());
+				//CalculoPontos calculo =new CalculoPontos(Socio.getSocioLogado(), p.getPreco());
+				banco.updatePontosSocio(Socio.getSocioLogado(), 1000);
+				banco.inserirCompraHistorico(p, Socio.getSocioLogado(), data, 1000);
 				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-				builder.setMessage(" Parabéns! Você ganhou "+calculo.getPontos()+" pontos! Agora você possui "+Socio.getSocioLogado().getPontos()+"pontos")
+				builder.setMessage(" Parabéns! Você ganhou 1000 pontos! Agora você possui "+Socio.getSocioLogado().getPontos()+"pontos")
 				       .setTitle("Parabéns!");
 				AlertDialog dialog = builder.create();
 				dialog.show();
