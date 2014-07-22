@@ -7,6 +7,7 @@ import java.util.Date;
 import negocio.CalculoPontos;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import bd.Banco;
 
 import com.example.sociotorcedortricolor.R;
+import com.example.sociotorcedortricolor.TelaInicial;
 
 import dominio.Produto;
 import dominio.Socio;
@@ -62,6 +64,9 @@ public class FragmentCodigo extends Fragment implements OnClickListener {
 				       .setTitle("Parabéns!");
 				AlertDialog dialog = builder.create();
 				dialog.show();
+				
+				Intent intent = new Intent(getActivity(), TelaInicial.class);
+				startActivity(intent);
 				
 			}
 			else{
