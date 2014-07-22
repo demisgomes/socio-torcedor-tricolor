@@ -11,6 +11,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -210,6 +211,12 @@ public class TelaLogin extends Activity implements OnClickListener {
 					startActivity(intent);
 				}
 				
+			}
+			else{
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			    builder.setMessage("Usuário Inválido")
+			       .setTitle("Inválido").setPositiveButton("OK", null);
+			    builder.create().show();
 			}
 			
 		}

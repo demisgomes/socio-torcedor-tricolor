@@ -48,14 +48,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="11sp" 
-            android:text="Minha mãe tá demais"/>
+            android:text=""/>
             
             <TextView
             android:id="@+id/dataPagamento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="11sp" 
-            android:text="Minha mãe tá demais"/>
+            android:text=""/>
 
                 
                 

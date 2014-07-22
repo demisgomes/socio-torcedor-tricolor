@@ -189,6 +189,9 @@ public class TelaCadastro extends Activity {
 						       .setTitle("Parabéns");
 						AlertDialog dialog = builder.create();
 						dialog.show();
+						
+						Intent intent=new Intent (getActivity(), TelaLogin.class);
+						startActivity(intent);
 					}
 					
 					else{
