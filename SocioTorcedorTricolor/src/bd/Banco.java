@@ -641,7 +641,7 @@ public class Banco {
 			cursor.moveToFirst();
 			for(int i=0;i<qtd;i++){
 				Produto p=new Produto(cursor.getString(cursor.getColumnIndex("nome")), cursor.getString(cursor.getColumnIndex("codigo")), cursor.getFloat(cursor.getColumnIndex("preco")), cursor.getInt(cursor.getColumnIndex("pontos")));
-				String update= "UPDATE "+tabelaProdutos+" SET adquirido='1', preco = '"+(p.getPreco()+5)+"' WHERE _id LIKE '"+cursor.getInt(0)+"'";
+				String update= "UPDATE "+tabelaProdutos+" SET adquirido='1', preco = '"+(p.getPreco())+"' WHERE _id LIKE '"+cursor.getInt(0)+"'";
 				bancoDados.execSQL(update);
 				CalculoPontos calculo =new CalculoPontos(socio, p.getPreco());
 				String inserePontosUsuario="INSERT INTO "+tabelaPontosUsuario+"(idProduto, idUsuario, pontosAdquiridos, dataCompra, foiCompra) VALUES ('"+cursor.getInt(0)+"', '"+socio.getIdUnico()+"','"+calculo.getPontos()+"' , '"+data+"', '1')";

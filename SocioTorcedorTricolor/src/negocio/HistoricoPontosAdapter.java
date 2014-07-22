@@ -81,7 +81,7 @@ public class HistoricoPontosAdapter extends ArrayAdapter<Produto> {
         	pontos.setText("");
         }
         else{
-        	preco.setText("Custou R$"+ produto.getPreco()+"0");
+        	preco.setText("Custou R$"+ produto.getPreco()+"0 +Frete");
         	 pontos.setText("Ganhou "+ produto.getPontosAdquiridos()+" pontos");
         }
         nome.setText(produto.getNomeProduto());
