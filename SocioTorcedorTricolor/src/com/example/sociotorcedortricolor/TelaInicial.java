@@ -6,6 +6,7 @@ import java.util.Date;
 
 import dominio.Socio;
 import bd.Banco;
+import bd.CartaoDAO;
 import bd.MensalidadesDAO;
 import Fragments.FragmentCodigo;
 import Fragments.FragmentLoja;
@@ -74,7 +75,9 @@ public class TelaInicial extends Activity
 	   DateFormat format=new SimpleDateFormat("/MM/yyyy");
 		String dataProxima="05"+format.format(date);
 		System.out.println(dataProxima);
-		
+		CartaoDAO cDAO =new CartaoDAO(this);
+		Socio.getSocioLogado().setCartao(cDAO.retornarCartao(Socio.getSocioLogado()));
+		System.out.println(Socio.getSocioLogado().getCartao()+" Cartão");
 		Banco banco=new Banco(this);
 		MensalidadesDAO mDAO=new MensalidadesDAO(this);
 		if(!mDAO.proximaMensalidade(dataProxima, Socio.getSocioLogado())){
