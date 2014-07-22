@@ -1,7 +1,12 @@
 package com.example.sociotorcedortricolor;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import dominio.Socio;
 import bd.Banco;
+import bd.MensalidadesDAO;
 import Fragments.FragmentCodigo;
 import Fragments.FragmentLoja;
 import Fragments.FragmentMensalidades;
@@ -63,6 +68,18 @@ public class TelaInicial extends Activity
        mNavigationDrawerFragment.setUp(
                R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+       
+       Date date= new Date();
+	   date.setMonth(date.getMonth()+1);
+	   DateFormat format=new SimpleDateFormat("/MM/yyyy");
+		String dataProxima="05"+format.format(date);
+		System.out.println(dataProxima);
+		
+		Banco banco=new Banco(this);
+		MensalidadesDAO mDAO=new MensalidadesDAO(this);
+		if(!mDAO.proximaMensalidade(dataProxima, Socio.getSocioLogado())){
+			mDAO.inserirMensalidade(Socio.getSocioLogado(), dataProxima.substring(3,5), banco);
+		}
         
     }
 

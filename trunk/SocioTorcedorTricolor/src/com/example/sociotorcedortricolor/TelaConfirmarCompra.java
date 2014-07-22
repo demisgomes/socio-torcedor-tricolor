@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -91,6 +92,19 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		
+		android.content.DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent(TelaConfirmarCompra.this, TelaInicial.class);
+				startActivity(intent);
+			}
+		};
+		
+		
+		
 		if(v.getId()==R.id.btnConfirmarCompra){
 			nomeTitular=etNomeTitular.getText().toString();
 			numeroCartao=etNumeroCartao.getText().toString();
@@ -115,14 +129,12 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 					sDAO.updateSituacao(Socio.getSocioLogado(), 1);
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				    builder.setMessage("Pagamento da Taxa Aprovado")
-				       .setTitle("Validado").setPositiveButton("OK", null);
+				       .setTitle("Validado").setPositiveButton("OK", listener);
 				    builder.create().show();
 				    
-				    
-				    Intent intent = new Intent(this, TelaInicial.class);
-				    startActivity(intent);
 				}
 			}
+			
 			
 			//---------------------------------
 			//SE FOR TELA DE PAGAMENTO DA MENSALIDADE
@@ -169,11 +181,10 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 					mDAO.updateMensalidade(mensalidade);
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				    builder.setMessage("Pagamento de mensalidade Aprovado")
-				       .setTitle("Validado").setPositiveButton("OK", null);
+				       .setTitle("Validado").setPositiveButton("OK", listener );
 				    builder.create().show();
 				    
-				    Intent intent = new Intent(this, TelaInicial.class);
-				    startActivity(intent);
+				    
 				}
 				
 				else{
@@ -202,7 +213,13 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 					
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				    builder.setMessage("Compra Confirmada com sucesso! A compra chegará em torno de 5 dias!")
-				       .setTitle("Compra").setPositiveButton("OK", null);
+				       .setTitle("Compra").setPositiveButton("OK", listener);
+				    builder.create().show();
+				}
+				else{
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				    builder.setMessage("Pagamento recusado")
+				       .setTitle("Recusado").setPositiveButton("OK", null);
 				    builder.create().show();
 				}
 			}

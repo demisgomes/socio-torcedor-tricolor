@@ -249,6 +249,26 @@ public class MensalidadesDAO {
 		
 	}
 	
+	public boolean proximaMensalidade(String data, Socio socio){
+		try{
+			openBd();
+			
+			String mensalidade= "SELECT * FROM tabelaMensalidades WHERE idSocio = '"+socio.getIdUnico()+"' AND dataVencimento LIKE '"+data+"'";
+			Cursor cursor= bancoDados.rawQuery(mensalidade, null);
+			cursor.moveToFirst();
+			int id=cursor.getInt(0);
+			return true;
+				
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			closeBd();
+		}
+	}
+	
 	//public int retorneQtdMensalidadesAtrasadas(Socio socio){
 		
 	//}
