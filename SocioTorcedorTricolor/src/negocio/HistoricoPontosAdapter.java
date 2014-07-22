@@ -58,6 +58,7 @@ public class HistoricoPontosAdapter extends ArrayAdapter<Produto> {
      
         //get the Evento from position
         Produto produto = getItem(position);
+        nome.setText(produto.getNomeProduto());
         int drawable=R.drawable.santa_cruz_2013;
         if(produto.getNomeProduto().equals("Calção Oficial")){
         	drawable=R.drawable.calcao_santa_cruz;
@@ -69,8 +70,9 @@ public class HistoricoPontosAdapter extends ArrayAdapter<Produto> {
         if(produto.getNomeProduto().equals("Garrafa Oficial")){
         	drawable=R.drawable.garrafa_santa_cruz;
         }
-        if(produto.getNomeProduto().equals("Ingresso")){
+        if(produto.getNomeProduto().substring(0, 8).equals("Ingresso")){
         	drawable=R.drawable.ingresso_santa_cruz;
+        	nome.setTextSize(13);
         }
         if(produto.getNomeProduto().equals("Toalha Oficial")){
         	drawable=R.drawable.toalha_santa_cruz;
@@ -81,10 +83,15 @@ public class HistoricoPontosAdapter extends ArrayAdapter<Produto> {
         	pontos.setText("");
         }
         else{
-        	preco.setText("Custou R$"+ produto.getPreco()+"0 +Frete");
+        	if(produto.getNomeProduto().substring(0, 8).equals("Ingresso")){
+        		preco.setText("Custou R$"+ produto.getPreco()+"0");
+        	}else{
+        		preco.setText("Custou R$"+ produto.getPreco()+"0 +Frete");
+        	}
+        	
         	 pontos.setText("Ganhou "+ produto.getPontosAdquiridos()+" pontos");
         }
-        nome.setText(produto.getNomeProduto());
+        
         
        
         image.setBackgroundResource(drawable);

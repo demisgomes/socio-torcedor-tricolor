@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -68,6 +69,17 @@ public class TelaConfirmarEndereco extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		if(v.getId()==R.id.btnConfirmarEndereco){
 			
+			android.content.DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					Intent intent=new Intent(TelaConfirmarEndereco.this, TelaInicial.class);
+					startActivity(intent);
+				}
+			};
+			
+			
 			if(tipoTela.equals("pagamentoDinheiro")){
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			    builder.setMessage("Endereço confirmado!")
@@ -89,12 +101,18 @@ public class TelaConfirmarEndereco extends Activity implements OnClickListener {
 				
 				banco.inserirCompraHistorico(Compra.getCompraAtual().getProduto().getNomeProduto(), Compra.getCompraAtual().getQtdProdutos(), Socio.getSocioLogado(), data);
 				
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			    builder.setMessage("Compra Confirmada com sucesso! A compra chegará em torno de 5 dias!")
-			       .setTitle("Compra").setPositiveButton("OK", null);
-			    builder.create().show();
-			    Intent intent=new Intent(TelaConfirmarEndereco.this, TelaInicial.class);
-			    startActivity(intent);
+				if(Compra.getCompraAtual().getProduto().getNomeProduto().substring(0, 8).equals("Ingresso")){
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				    builder.setMessage("Compra Confirmada com sucesso! Vá até o Arruda no dia do jogo e retire seu ingresso com seu cartão de sócio!")
+				       .setTitle("Compra").setPositiveButton("OK", listener);
+				    builder.create().show();
+				}
+				else{
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				    builder.setMessage("Compra Confirmada com sucesso! A compra chegará em torno de 5 dias!")
+				       .setTitle("Compra").setPositiveButton("OK", listener);
+				    builder.create().show();
+				}
 				/*Intent intent=new Intent(TelaConfirmarEndereco.this, TelaConfirmarCompra.class);
 				TelaConfirmarCompra.tipoTela="pagamentoCompra";
 				startActivity(intent);*/

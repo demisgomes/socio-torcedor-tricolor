@@ -211,10 +211,20 @@ public class TelaConfirmarCompra extends Activity implements OnClickListener {
 					
 					banco.inserirCompraHistoricoDinheiro(Compra.getCompraAtual().getProduto().getNomeProduto(), Compra.getCompraAtual().getQtdProdutos(), Socio.getSocioLogado(), data);
 					
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				    builder.setMessage("Compra Confirmada com sucesso! A compra chegará em torno de 5 dias!")
-				       .setTitle("Compra").setPositiveButton("OK", listener);
-				    builder.create().show();
+					if(Compra.getCompraAtual().getProduto().getNomeProduto().substring(0, 8).equals("Ingresso")){
+						AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					    builder.setMessage("Compra Confirmada com sucesso! Vá até o Arruda no dia do jogo e retire seu ingresso com seu cartão de sócio!")
+					       .setTitle("Compra").setPositiveButton("OK", listener);
+					    builder.create().show();
+					}
+					else{
+						AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					    builder.setMessage("Compra Confirmada com sucesso! A compra chegará em torno de 5 dias!")
+					       .setTitle("Compra").setPositiveButton("OK", listener);
+					    builder.create().show();
+					}
+					
+							
 				}
 				else{
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);

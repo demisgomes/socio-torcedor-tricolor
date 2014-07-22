@@ -99,11 +99,11 @@ public class Banco {
 		ListaDeProdutos.add(new Produto("Calção Oficial", "G7R2-T4I0", (float)99.90, 1200));
 		ListaDeProdutos.add(new Produto("Camisa Polo", "GRR4-T5Y0", (float)89.90, 1000));
 		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G7R4-T9Q0", (float)9.90, 500));
-		ListaDeProdutos.add(new Produto("Toalha Oficial", "G7R2-T9Y0", (float)29.90, 600));
+		ListaDeProdutos.add(new Produto("Ingresso- STA X CEA", "G7R2-T9Y0", (float)15.00, 600));
 		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R3-T9Y0", (float)189.90, 1500));
-		ListaDeProdutos.add(new Produto("Toalha Oficial", "G7R5-T9Y0", (float)29.90, 600));
+		ListaDeProdutos.add(new Produto("Ingresso- STA X CEA", "G7R5-T9Y0", (float)15.00, 600));
 		ListaDeProdutos.add(new Produto("Garrafa Oficial", "G7R6-T9Y0", (float)9.90, 500));
-		ListaDeProdutos.add(new Produto("Toalha Oficial", "G7R7-T9Y0", (float)29.90, 600));
+		ListaDeProdutos.add(new Produto("Ingresso- STA X CEA", "G7R7-T9Y0", (float)15.00, 600));
 		ListaDeProdutos.add(new Produto("Camisa Oficial", "G7R8-T9Y0", (float)189.90, 1500));
 		
 		return ListaDeProdutos;

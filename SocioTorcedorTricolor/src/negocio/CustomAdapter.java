@@ -71,8 +71,9 @@ public class CustomAdapter extends ArrayAdapter<Produto> {
         if(produto.getNomeProduto().equals("Garrafa Oficial")){
         	drawable=R.drawable.garrafa_santa_cruz;
         }
-        if(produto.getNomeProduto().equals("Ingresso")){
+        if(produto.getNomeProduto().substring(0, 8).equals("Ingresso")){
         	drawable=R.drawable.ingresso_santa_cruz;
+        	nome.setTextSize(13);
         }
         if(produto.getNomeProduto().equals("Toalha Oficial")){
         	drawable=R.drawable.toalha_santa_cruz;
