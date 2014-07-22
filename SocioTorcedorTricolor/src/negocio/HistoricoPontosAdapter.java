@@ -70,7 +70,7 @@ public class HistoricoPontosAdapter extends ArrayAdapter<Produto> {
         if(produto.getNomeProduto().equals("Garrafa Oficial")){
         	drawable=R.drawable.garrafa_santa_cruz;
         }
-        if(produto.getNomeProduto().substring(0, 8).equals("Ingresso")){
+        if(produto.getNomeProduto().length()>1 && produto.getNomeProduto().substring(0, 8).equals("Ingresso")){
         	drawable=R.drawable.ingresso_santa_cruz;
         	nome.setTextSize(13);
         }
@@ -83,10 +83,17 @@ public class HistoricoPontosAdapter extends ArrayAdapter<Produto> {
         	pontos.setText("");
         }
         else{
-        	if(produto.getNomeProduto().substring(0, 8).equals("Ingresso")){
+        	if(produto.getNomeProduto().length()>1 && produto.getNomeProduto().substring(0, 8).equals("Ingresso")){
         		preco.setText("Custou R$"+ produto.getPreco()+"0");
         	}else{
-        		preco.setText("Custou R$"+ produto.getPreco()+"0 +Frete");
+        		if(produto.getNomeProduto().length()==1){
+        			preco.setText("");
+        			nome.setText(produto.getCodigo());
+        		}
+        		else{
+        			preco.setText("Custou R$"+ produto.getPreco()+"0 +Frete");
+        		}
+        		
         	}
         	
         	 pontos.setText("Ganhou "+ produto.getPontosAdquiridos()+" pontos");
