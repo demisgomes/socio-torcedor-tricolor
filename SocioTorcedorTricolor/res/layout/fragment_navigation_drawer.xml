@@ -84,6 +84,14 @@
         android:layout_toRightOf="@+id/btnHistoricoPontos"
         android:background="@drawable/excluir" />
 
+    <Button
+        android:id="@+id/btnSair"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnEditar"
+        android:layout_toRightOf="@+id/btnEditar"
+        android:text="Sair" />
+
 </RelativeLayout>
 
 
