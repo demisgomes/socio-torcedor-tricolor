@@ -1,9 +1,15 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.sociotorcedortricolor.TelaLogin" >
+    tools:context="com.example.sociotorcedortricolor.TelaLogin"
+     >
 
     <!-- Login progress -->
-
+	<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:background="@drawable/background">
+    </RelativeLayout>
+    
     <LinearLayout
         android:id="@+id/login_status"
         android:layout_width="wrap_content"
@@ -33,13 +39,13 @@
 
     <ScrollView
         android:id="@+id/login_form"
-        android:layout_marginTop="280dip"
+        android:layout_marginTop="200dip"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
         <LinearLayout
             style="@style/LoginFormContainer"
-            android:layout_height="wrap_content"
+            android:layout_height="393dp"
             android:orientation="vertical" >
 
             <EditText
@@ -88,5 +94,7 @@
 
         </LinearLayout>
     </ScrollView>
+
+    
 
 </merge>
