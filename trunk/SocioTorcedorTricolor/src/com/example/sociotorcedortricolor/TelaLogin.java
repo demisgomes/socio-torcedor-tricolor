@@ -85,6 +85,7 @@ public class TelaLogin extends Activity implements OnClickListener {
 			Banco banco3=new Banco(this);
 			mDAO2.inserirMensalidade(socio, "07", banco2);
 			mDAO3.inserirMensalidade(socio, "06", banco3, 2, "25/06/2014", 0);
+			cDAO.inserirIdSocioCartao(socio);
 		}
 		//banco.inserirProdutos();
 		Date date=new Date();
