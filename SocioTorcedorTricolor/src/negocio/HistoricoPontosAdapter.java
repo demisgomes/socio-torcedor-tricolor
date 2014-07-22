@@ -77,6 +77,8 @@ public class HistoricoPontosAdapter extends ArrayAdapter<Produto> {
         if(produto.getNomeProduto().equals("Toalha Oficial")){
         	drawable=R.drawable.toalha_santa_cruz;
         }
+        
+        image.setBackgroundResource(drawable);
         //fill the view objects according values from Evento object
         if(produto.getPontosAdquiridos()==0){
         	preco.setText("Custou "+ produto.getPontos()+" pontos");
@@ -89,6 +91,7 @@ public class HistoricoPontosAdapter extends ArrayAdapter<Produto> {
         		if(produto.getNomeProduto().length()==1){
         			preco.setText("");
         			nome.setText(produto.getCodigo());
+        			image.setBackgroundResource(R.drawable.transparente);
         		}
         		else{
         			preco.setText("Custou R$"+ produto.getPreco()+"0 +Frete");
@@ -101,7 +104,7 @@ public class HistoricoPontosAdapter extends ArrayAdapter<Produto> {
         
         
        
-        image.setBackgroundResource(drawable);
+        
     	qtd.setText(produto.getDataCompra());
         return convertView;
     }
